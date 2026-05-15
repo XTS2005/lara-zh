@@ -63,11 +63,12 @@ func fetchkcache() -> Bool {
     }
 
     var buffer = [UInt8](repeating: 0, count: 0x4000)
+    let bufferSize = buffer.count
     var totalBytes = 0
 
     while true {
         let n = buffer.withUnsafeMutableBytes { rawBuffer in
-            read(src, rawBuffer.baseAddress!, buffer.count)
+            read(src, rawBuffer.baseAddress!, bufferSize)
         }
 
         if n < 0 {
