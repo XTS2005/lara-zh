@@ -1040,7 +1040,7 @@ private enum santanderfs {
 
         do {
             let names = try fm.contentsOfDirectory(atPath: item.path)
-            let mode = fmAppsDisplayMode(rawValue: UserDefaults.standard.string(forKey: "selectedFmAppsDisplayMode") ?? "") ?? .appName
+            let mode = fmAppsDisplayMode(rawValue: UserDefaults.standard.string(forKey: "selectedFMAppsDisplayMode") ?? "") ?? .appName
             let bundledirs = [
                 "/private/var/containers/Bundle/Application",
                 "/var/containers/Bundle/Application"
