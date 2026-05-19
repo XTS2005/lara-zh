@@ -16,7 +16,7 @@ struct SantanderView: View {
 
     @AppStorage("selectedmethod") private var selectedmethod: method = .hybrid
     @ObservedObject private var mgr = laramgr.shared
-    
+
     @State private var showsecret: Bool = false
 
     init(startPath: String = "/") {
@@ -50,17 +50,17 @@ struct SantanderView: View {
                 NavigationStack {
                     List {
                         Section {
-                            Text("1. Run the Exploit")
-                            Text("2. Escape the Sandbox")
-                            Text("3. Initialise VFS")
-                            Text("4. Try again")
+                            Text("1. 运行漏洞")
+                            Text("2. 逃逸沙盒")
+                            Text("3. 初始化 VFS")
+                            Text("4. 重试")
                         } header: {
-                            Label("Error", systemImage: "exclamationmark.triangle")
+                            Label("错误", systemImage: "exclamationmark.triangle")
                         } footer: {
-                            Text("Error: The file manager isn't ready. \nNOTE: Steps 1 and 2 might be merged into one 'Initialise System' button")
+                            Text("错误: 文件管理器未就绪。\n注意：步骤 1 和 2 可能合并为一个「初始化系统」按钮")
                         }
                     }
-                    .navigationTitle("File Manager")
+                    .navigationTitle("文件管理器")
                     .toolbar {
                         Button {
                             showsecret = true
@@ -166,20 +166,20 @@ struct SantanderView: View {
 
 func showalert(mgr: laramgr) {
     let messages = [
-        "⚠️   INSTALL CYDIA NOW! INSTALL CYDIA NOW! ⚠️",
-        "🔴   INSTALL CYDIA NOW!  INSTALL CYDIA NOW! INSTALL CYDIA NOW! 🔴",
-        "💀 INSTALL CYDIA NOW! 💀",
-        "🚨   INSTALL CYDIA NOW!  INSTALL CYDIA NOW!  INSTALL CYDIA NOW!  INSTALL CYDIA NOW!  INSTALL CYDIA NOW!  INSTALL CYDIA NOW!  INSTALL CYDIA NOW!  INSTALL CYDIA NOW!  INSTALL CYDIA NOW!  INSTALL CYDIA NOW!  INSTALL CYDIA NOW!  INSTALL CYDIA NOW! INSTALL CYDIA NOW!  🚨"
+        "⚠️   立即安装 CYDIA！立即安装 CYDIA！ ⚠️",
+        "🔴   立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！ 🔴",
+        "💀 立即安装 CYDIA！ 💀",
+        "🚨   立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！立即安装 CYDIA！  🚨"
     ]
     
     let alert = UIAlertController(
-        title: "⚠️ ALERT ⚠️",
+        title: "⚠️ 警告 ⚠️",
         message: messages.randomElement(),
         preferredStyle: .alert
     )
     
-    alert.addAction(UIAlertAction(title: "OK", style: .default))
-    alert.addAction(UIAlertAction(title: "INSTALL", style: .destructive) { _ in
+    alert.addAction(UIAlertAction(title: "确定", style: .default))
+    alert.addAction(UIAlertAction(title: "安装", style: .destructive) { _ in
         mgr.panic()
     })
     
@@ -392,7 +392,7 @@ private struct santanderdirview: View {
                 }
             } else if model.shownitems.isEmpty {
                 Section {
-                    Text(model.emptymsg ?? "Directory is empty.")
+                    Text(model.emptymsg ?? "目录为空。")
                         .foregroundColor(.secondary)
                 }
             } else {
@@ -408,51 +408,51 @@ private struct santanderdirview: View {
                             Button {
                                 copy(entry)
                             } label: {
-                                Label("Copy", systemImage: "doc.on.doc")
+                                Label("拷贝", systemImage: "doc.on.doc")
                             }
 
                             Button {
                                 infoitem = entry
                             } label: {
-                                Label("Get Info", systemImage: "info.circle")
+                                Label("获取信息", systemImage: "info.circle")
                             }
 
                             Button {
                                 renameitem = entry
                             } label: {
-                                Label("Rename", systemImage: "pencil")
+                                Label("重命名", systemImage: "pencil")
                             }
                             .disabled(!readsbx)
 
                             Button {
                                 replace(entry)
                             } label: {
-                                Label("Replace With Clipboard", systemImage: "doc.on.clipboard")
+                                Label("用剪贴板替换", systemImage: "doc.on.clipboard")
                             }
                             .disabled(clip.item == nil || (!readsbx && !writevfs))
 
                             Button {
                                 chmoditem = entry
                             } label: {
-                                Label("Chmod", systemImage: "lock.open")
+                                Label("权限修改", systemImage: "lock.open")
                             }
 
                             Button {
                                 chownitem = entry
                             } label: {
-                                Label("Chown", systemImage: "person.crop.circle")
+                                Label("所有者修改", systemImage: "person.crop.circle")
                             }
 
                             Button(role: .destructive) {
                                 delitem = entry
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label("删除", systemImage: "trash")
                             }
                         }
                     }
                 } footer: {
                     if !readsbx {
-                        Text("This file manager is powered by vfs namecache lookups, not full directory enumeration. It may display inaccurate information.")
+                        Text("此文件管理器基于 vfs namecache 查找，而非完整目录枚举。可能显示不准确的信息。")
                     }
                 }
             }
@@ -490,76 +490,76 @@ private struct santanderdirview: View {
                         if readsbx {
                             showimport = true
                         } else {
-                            msg = santandermsg(title: "Upload Unavailable", text: "Upload is only supported in SBX mode.")
+                            msg = santandermsg(title: "上传不可用", text: "上传仅在 SBX 模式下支持。")
                         }
                     } label: {
-                        Label("Upload File", systemImage: "square.and.arrow.down")
+                        Label("上传文件", systemImage: "square.and.arrow.down")
                     }
 
                     Button {
                         if readsbx {
                             shownewfolder = true
                         } else {
-                            msg = santandermsg(title: "New Folder Unavailable", text: "Creating folders is only supported in SBX mode.")
+                            msg = santandermsg(title: "新建文件夹不可用", text: "创建文件夹仅在 SBX 模式下支持。")
                         }
                     } label: {
-                        Label("New Folder", systemImage: "folder.badge.plus")
+                        Label("新建文件夹", systemImage: "folder.badge.plus")
                     }
 
                     Button {
                         if readsbx {
                             shownewfile = true
                         } else {
-                            msg = santandermsg(title: "Create File Unavailable", text: "Creating files is only supported in SBX mode.")
+                            msg = santandermsg(title: "创建文件不可用", text: "创建文件仅在 SBX 模式下支持。")
                         }
                     } label: {
-                        Label("Create File", systemImage: "doc.badge.plus")
+                        Label("创建文件", systemImage: "doc.badge.plus")
                     }
 
                     Button {
                         paste(replace: false)
                     } label: {
-                        Label("Paste", systemImage: "doc.on.clipboard")
+                        Label("粘贴", systemImage: "doc.on.clipboard")
                     }
                     .disabled(clip.item == nil || !readsbx)
 
                     Button {
                         paste(replace: true)
                     } label: {
-                        Label("Paste (Replace)", systemImage: "doc.on.clipboard.fill")
+                        Label("粘贴（替换）", systemImage: "doc.on.clipboard.fill")
                     }
                     .disabled(clip.item == nil || !readsbx)
 
                     Menu {
-                        Button("Sort A-Z") {
+                        Button("排序 A-Z") {
                             model.sort = .az
                             model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
                         }
-                        Button("Sort Z-A") {
+                        Button("排序 Z-A") {
                             model.sort = .za
                             model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
                         }
                     } label: {
-                        Label("Sort", systemImage: "arrow.up.arrow.down")
+                        Label("排序", systemImage: "arrow.up.arrow.down")
                     }
 
                     Button {
                         model.showhidden.toggle()
                         model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
                     } label: {
-                        Label(model.showhidden ? "Hide hidden files" : "Display hidden files", systemImage: "eye")
+                        Label(model.showhidden ? "隐藏隐藏文件" : "显示隐藏文件", systemImage: "eye")
                     }
 
                     Button {
                         nav.go(santanderitem(path: "/", isdir: true))
                     } label: {
-                        Label("Go to Root", systemImage: "externaldrive")
+                        Label("前往根目录", systemImage: "externaldrive")
                     }
 
                     Button {
                         nav.go(santanderitem(path: NSHomeDirectory(), isdir: true))
                     } label: {
-                        Label("Go to Home", systemImage: "house")
+                        Label("前往个人目录", systemImage: "house")
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")
@@ -572,34 +572,34 @@ private struct santanderdirview: View {
                 guard let url = urls.first else { return }
                 upload(url)
             case .failure(let err):
-                msg = santandermsg(title: "Upload Failed", text: err.localizedDescription)
+                msg = santandermsg(title: "上传失败", text: err.localizedDescription)
             }
         }
         .alert(item: $msg) { msg in
-            Alert(title: Text(msg.title), message: Text(msg.text), dismissButton: .default(Text("OK")))
+            Alert(title: Text(msg.title), message: Text(msg.text), dismissButton: .default(Text("确定")))
         }
-        .alert("Delete", isPresented: Binding(get: { delitem != nil }, set: { if !$0 { delitem = nil } })) {
-            Button("Cancel", role: .cancel) {
+        .alert("删除", isPresented: Binding(get: { delitem != nil }, set: { if !$0 { delitem = nil } })) {
+            Button("取消", role: .cancel) {
                 delitem = nil
             }
-            Button("Delete", role: .destructive) {
+            Button("删除", role: .destructive) {
                 if let entry = delitem {
                     delete(entry)
                 }
                 delitem = nil
             }
         } message: {
-            Text("Delete \(delitem?.name ?? "item")?")
+            Text("删除 \(delitem?.name ?? "item")？")
         }
         .sheet(item: $infoitem) { entry in
             infosheetcontent(entry: entry)
         }
         .sheet(item: $renameitem) { entry in
             santandernamesheet(
-                title: "Rename",
+                title: "重命名",
                 itemname: entry.name,
                 placeholder: entry.name,
-                actiontitle: "Rename"
+                actiontitle: "重命名"
             ) { newname in
                 rename(entry, newname: newname)
             }
@@ -607,26 +607,26 @@ private struct santanderdirview: View {
         .sheet(item: $chmoditem) { entry in
             santanderchmodsheet(item: entry) { mode in
                 let ok = entry.path.withCString { apfs_mod($0, mode) == 0 }
-                msg = santandermsg(title: "Chmod", text: ok ? "Operation completed." : "Operation failed.")
+                msg = santandermsg(title: "权限修改", text: ok ? "操作完成。" : "操作失败。")
             }
         }
         .sheet(item: $chownitem) { entry in
             santanderchownsheet(item: entry) { uid, gid in
                 let ok = entry.path.withCString { apfs_own($0, uid, gid) == 0 }
-                msg = santandermsg(title: "Chown", text: ok ? "Operation completed." : "Operation failed.")
+                msg = santandermsg(title: "所有者修改", text: ok ? "操作完成。" : "操作失败。")
             }
         }
-        .alert("File Manager Info", isPresented: $showvfsinfo) {
-            Button("OK", role: .cancel) {}
+        .alert("文件管理器信息", isPresented: $showvfsinfo) {
+            Button("确定", role: .cancel) {}
         } message: {
-            Text("This browser is powered by vfs namecache lookups, not full directory enumeration. Some folders may appear empty unless entries are already cached. Symlinks may also be shown as files even when their targets are directories.")
+            Text("此浏览器基于 vfs namecache 查找，而非完整目录枚举。某些文件夹可能显示为空，除非条目已被缓存。符号链接也可能显示为文件，即使其目标是目录。")
         }
         .sheet(isPresented: $shownewfolder) {
             santandernamesheet(
-                title: "New Folder",
+                title: "新建文件夹",
                 itemname: item.name,
-                placeholder: "New Folder",
-                actiontitle: "Create"
+                placeholder: "新建文件夹",
+                actiontitle: "创建"
             ) { name in
                 newfolder(name: name)
             }
@@ -684,29 +684,29 @@ private struct santanderdirview: View {
 
     private func copy(_ entry: santanderitem) {
         clip.item = santanderclipitem(path: entry.path, isdir: entry.isdir, name: entry.name)
-        msg = santandermsg(title: "Copied", text: entry.name)
+        msg = santandermsg(title: "已拷贝", text: entry.name)
     }
 
     private func rename(_ entry: santanderitem, newname: String) {
         guard readsbx else {
-            msg = santandermsg(title: "Rename Unavailable", text: "Rename is only supported in SBX mode.")
+            msg = santandermsg(title: "重命名不可用", text: "重命名仅在 SBX 模式下支持。")
             return
         }
 
         let trimmed = newname.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else {
-            msg = santandermsg(title: "Rename Failed", text: "Name cannot be empty.")
+            msg = santandermsg(title: "重命名失败", text: "名称不能为空。")
             return
         }
         guard !trimmed.contains("/") else {
-            msg = santandermsg(title: "Rename Failed", text: "Name cannot contain '/'.")
+            msg = santandermsg(title: "重命名失败", text: "名称不能包含 '/'。")
             return
         }
         guard trimmed != entry.name else { return }
 
         let dest = ((entry.path as NSString).deletingLastPathComponent as NSString).appendingPathComponent(trimmed)
         guard !FileManager.default.fileExists(atPath: dest) else {
-            msg = santandermsg(title: "Rename Failed", text: "A file with that name already exists.")
+            msg = santandermsg(title: "重命名失败", text: "同名文件已存在。")
             return
         }
 
@@ -714,29 +714,29 @@ private struct santanderdirview: View {
             try FileManager.default.moveItem(atPath: entry.path, toPath: dest)
             model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
         } catch {
-            msg = santandermsg(title: "Rename Failed", text: error.localizedDescription)
+            msg = santandermsg(title: "重命名失败", text: error.localizedDescription)
         }
     }
 
     private func newfolder(name: String) {
         guard readsbx else {
-            msg = santandermsg(title: "New Folder Unavailable", text: "Creating folders is only supported in SBX mode.")
+            msg = santandermsg(title: "新建文件夹不可用", text: "创建文件夹仅在 SBX 模式下支持。")
             return
         }
 
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else {
-            msg = santandermsg(title: "New Folder Failed", text: "Name cannot be empty.")
+            msg = santandermsg(title: "新建文件夹失败", text: "名称不能为空。")
             return
         }
         guard !trimmed.contains("/") else {
-            msg = santandermsg(title: "New Folder Failed", text: "Name cannot contain '/'.")
+            msg = santandermsg(title: "新建文件夹失败", text: "名称不能包含 '/'。")
             return
         }
 
         let dest = (item.path as NSString).appendingPathComponent(trimmed)
         guard !FileManager.default.fileExists(atPath: dest) else {
-            msg = santandermsg(title: "New Folder Failed", text: "A file with that name already exists.")
+            msg = santandermsg(title: "新建文件夹失败", text: "同名文件已存在。")
             return
         }
 
@@ -744,29 +744,29 @@ private struct santanderdirview: View {
             try FileManager.default.createDirectory(atPath: dest, withIntermediateDirectories: false, attributes: nil)
             model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
         } catch {
-            msg = santandermsg(title: "New Folder Failed", text: error.localizedDescription)
+            msg = santandermsg(title: "新建文件夹失败", text: error.localizedDescription)
         }
     }
 
     private func newfile(name: String, text: String) {
         guard readsbx else {
-            msg = santandermsg(title: "Create File Unavailable", text: "Creating files is only supported in SBX mode.")
+            msg = santandermsg(title: "创建文件不可用", text: "创建文件仅在 SBX 模式下支持。")
             return
         }
 
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else {
-            msg = santandermsg(title: "Create File Failed", text: "Name cannot be empty.")
+            msg = santandermsg(title: "创建文件失败", text: "名称不能为空。")
             return
         }
         guard !trimmed.contains("/") else {
-            msg = santandermsg(title: "Create File Failed", text: "Name cannot contain '/'.")
+            msg = santandermsg(title: "创建文件失败", text: "名称不能包含 '/'。")
             return
         }
 
         let dest = (item.path as NSString).appendingPathComponent(trimmed)
         guard !FileManager.default.fileExists(atPath: dest) else {
-            msg = santandermsg(title: "Create File Failed", text: "A file with that name already exists.")
+            msg = santandermsg(title: "创建文件失败", text: "同名文件已存在。")
             return
         }
 
@@ -774,19 +774,19 @@ private struct santanderdirview: View {
             try Data(text.utf8).write(to: URL(fileURLWithPath: dest), options: .atomic)
             model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
         } catch {
-            msg = santandermsg(title: "Create File Failed", text: error.localizedDescription)
+            msg = santandermsg(title: "创建文件失败", text: error.localizedDescription)
         }
     }
 
     private func paste(replace: Bool) {
         guard readsbx else {
-            msg = santandermsg(title: "Paste Unavailable", text: "Paste is only supported in SBX mode.")
+            msg = santandermsg(title: "粘贴不可用", text: "粘贴仅在 SBX 模式下支持。")
             return
         }
         guard let clipitem = clip.item else { return }
 
         if clipitem.isdir && (item.path == clipitem.path || item.path.hasPrefix(clipitem.path + "/")) {
-            msg = santandermsg(title: "Paste Failed", text: "Cannot paste a folder into itself.")
+            msg = santandermsg(title: "粘贴失败", text: "无法将文件夹粘贴到其自身。")
             return
         }
 
@@ -800,7 +800,7 @@ private struct santanderdirview: View {
             try FileManager.default.copyItem(atPath: clipitem.path, toPath: dest)
             model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
         } catch {
-            msg = santandermsg(title: "Paste Failed", text: error.localizedDescription)
+            msg = santandermsg(title: "粘贴失败", text: error.localizedDescription)
         }
     }
 
@@ -812,18 +812,18 @@ private struct santanderdirview: View {
             if ok {
                 model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
             } else {
-                msg = santandermsg(title: "Replace Failed", text: "VFS overwrite failed.")
+                msg = santandermsg(title: "替换失败", text: "VFS 覆盖失败。")
             }
             return
         }
 
         guard readsbx else {
-            msg = santandermsg(title: "Replace Unavailable", text: "Replace is only supported in SBX mode.")
+            msg = santandermsg(title: "替换不可用", text: "替换仅在 SBX 模式下支持。")
             return
         }
 
         if clipitem.isdir && (entry.path == clipitem.path || entry.path.hasPrefix(clipitem.path + "/")) {
-            msg = santandermsg(title: "Replace Failed", text: "Cannot replace with a folder into itself.")
+            msg = santandermsg(title: "替换失败", text: "无法用文件夹替换其自身。")
             return
         }
 
@@ -834,13 +834,13 @@ private struct santanderdirview: View {
             try FileManager.default.copyItem(atPath: clipitem.path, toPath: entry.path)
             model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
         } catch {
-            msg = santandermsg(title: "Replace Failed", text: error.localizedDescription)
+            msg = santandermsg(title: "替换失败", text: error.localizedDescription)
         }
     }
 
     private func delete(_ entry: santanderitem) {
         guard readsbx else {
-            msg = santandermsg(title: "Delete Unavailable", text: "Delete is only supported in SBX mode.")
+            msg = santandermsg(title: "删除不可用", text: "删除仅在 SBX 模式下支持。")
             return
         }
 
@@ -848,17 +848,17 @@ private struct santanderdirview: View {
             try FileManager.default.removeItem(atPath: entry.path)
             model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
         } catch {
-            msg = santandermsg(title: "Delete Failed", text: error.localizedDescription)
+            msg = santandermsg(title: "删除失败", text: error.localizedDescription)
         }
     }
 
     private func upload(_ url: URL) {
         guard readsbx else {
-            msg = santandermsg(title: "Upload Unavailable", text: "Upload is only supported in SBX mode.")
+            msg = santandermsg(title: "上传不可用", text: "上传仅在 SBX 模式下支持。")
             return
         }
         guard url.startAccessingSecurityScopedResource() else {
-            msg = santandermsg(title: "Upload Failed", text: "Unable to access selected file.")
+            msg = santandermsg(title: "上传失败", text: "无法访问所选文件。")
             return
         }
         defer { url.stopAccessingSecurityScopedResource() }
@@ -873,7 +873,7 @@ private struct santanderdirview: View {
             try FileManager.default.copyItem(at: url, to: URL(fileURLWithPath: dest))
             model.load(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
         } catch {
-            msg = santandermsg(title: "Upload Failed", text: error.localizedDescription)
+            msg = santandermsg(title: "上传失败", text: error.localizedDescription)
         }
     }
 }
@@ -981,7 +981,7 @@ private struct santanderfileview: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 if caneditfile {
-                    Button(editing ? "Save" : "Edit") {
+                    Button(editing ? "保存" : "编辑") {
                         if editing {
                             save()
                         } else {
@@ -1000,7 +1000,7 @@ private struct santanderfileview: View {
             }
         }
         .alert(item: $msg) { msg in
-            Alert(title: Text(msg.title), message: Text(msg.text), dismissButton: .default(Text("OK")))
+            Alert(title: Text(msg.title), message: Text(msg.text), dismissButton: .default(Text("确定")))
         }
         .fileExporter(
             isPresented: $showexport,
@@ -1009,7 +1009,7 @@ private struct santanderfileview: View {
             defaultFilename: item.name
         ) { result in
             if case .failure(let err) = result {
-                msg = santandermsg(title: "Export Failed", text: err.localizedDescription)
+                msg = santandermsg(title: "导出失败", text: err.localizedDescription)
             }
         }
     }
@@ -1044,7 +1044,7 @@ private struct santanderfileview: View {
 
     private func startedit() {
         guard editable else {
-            msg = santandermsg(title: "Edit Unavailable", text: "This file type isn't editable in the viewer.")
+            msg = santandermsg(title: "编辑不可用", text: "此文件类型无法在查看器中编辑。")
             return
         }
         editing = true
@@ -1069,8 +1069,8 @@ private struct santanderfileview: View {
                 )
             } catch {
                 msg = santandermsg(
-                    title: "Save Failed",
-                    text: "Invalid plist format."
+                    title: "保存失败",
+                    text: "无效的 plist 格式。"
                 )
                 return
             }
@@ -1083,12 +1083,12 @@ private struct santanderfileview: View {
             editing = false
             original = text
             preview = .text(text, true)
-            msg = santandermsg(title: "Saved", text: "File updated.")
+            msg = santandermsg(title: "已保存", text: "文件已更新。")
             if !readsbx {
                 exporturl = santanderfs.preparetemp(item: item, readsbx: readsbx, maxbytes: 128 * 1024 * 1024)
             }
         } else {
-            msg = santandermsg(title: "Save Failed", text: writevfs ? "VFS overwrite failed." : "Unable to write file.")
+            msg = santandermsg(title: "保存失败", text: writevfs ? "VFS 覆盖失败。" : "无法写入文件。")
         }
     }
 
@@ -1131,7 +1131,7 @@ private struct santanderloadedfile {
 
 private enum santanderfs {
     static func listdir(item: santanderitem, readsbx: Bool) -> santanderlisting {
-        guard item.isdir else { return santanderlisting(items: [], empty: "Not a directory.") }
+        guard item.isdir else { return santanderlisting(items: [], empty: "不是目录。") }
 
         if readsbx {
             return listsbx(item: item)
@@ -1139,10 +1139,10 @@ private enum santanderfs {
 
         let mgr = laramgr.shared
         guard mgr.vfsready else {
-            return santanderlisting(items: [], empty: "VFS not ready.")
+            return santanderlisting(items: [], empty: "VFS 未就绪。")
         }
         guard let entries = mgr.vfslistdir(path: item.path) else {
-            return santanderlisting(items: [], empty: "Unable to list directory.")
+            return santanderlisting(items: [], empty: "无法列出目录。")
         }
 
         let items = entries.map { entry in
@@ -1150,7 +1150,7 @@ private enum santanderfs {
             return santanderitem(path: full, isdir: entry.isDir)
         }
 
-        return santanderlisting(items: items, empty: items.isEmpty ? "Directory is empty." : nil)
+        return santanderlisting(items: items, empty: items.isEmpty ? "目录为空。" : nil)
     }
 
     static func listsbx(item: santanderitem) -> santanderlisting {
@@ -1158,15 +1158,15 @@ private enum santanderfs {
         var isdir = ObjCBool(false)
         let exists = fm.fileExists(atPath: item.path, isDirectory: &isdir)
         guard exists, isdir.boolValue else {
-            return santanderlisting(items: [], empty: "Directory no longer exists.")
+            return santanderlisting(items: [], empty: "目录不再存在。")
         }
         guard fm.isReadableFile(atPath: item.path) else {
-            return santanderlisting(items: [], empty: "Cannot list directory (missing permissions).")
+            return santanderlisting(items: [], empty: "无法列出目录（权限不足）。")
         }
 
         do {
             let names = try fm.contentsOfDirectory(atPath: item.path)
-            let mode = fmAppsDisplayMode(rawValue: UserDefaults.standard.string(forKey: "selectedFMAppsDisplayMode") ?? "") ?? .appName
+            let mode = fmAppsDisplayMode(rawValue: UserDefaults.standard.string(forKey: "selectedFmAppsDisplayMode") ?? "") ?? .appName
             let bundledirs = [
                 "/private/var/containers/Bundle/Application",
                 "/var/containers/Bundle/Application"
@@ -1204,16 +1204,16 @@ private enum santanderfs {
                     }
                 }
 
-                return santanderitem(path: full, isdir: isdir.boolValue, display: display, isApp: isApp, appUDID: appUDID)
+                return santanderitem(path: full, isdir: isdir.boolValue, display: display)
             }
 
-            return santanderlisting(items: items, empty: items.isEmpty ? "Directory is empty." : nil)
+            return santanderlisting(items: items, empty: items.isEmpty ? "目录为空。" : nil)
         } catch {
             let err = error as NSError
             if err.domain == NSCocoaErrorDomain && err.code == NSFileReadNoPermissionError {
-                return santanderlisting(items: [], empty: "Cannot list directory (missing permissions).")
+                return santanderlisting(items: [], empty: "无法列出目录（权限不足）。")
             }
-            return santanderlisting(items: [], empty: "Unable to list directory: \(err.localizedDescription)")
+            return santanderlisting(items: [], empty: "无法列出目录：\(err.localizedDescription)")
         }
     }
 
@@ -1246,9 +1246,9 @@ private enum santanderfs {
     static func emptymessage(shown: [santanderitem], all: [santanderitem], query: String, showhidden: Bool, fallback: String?) -> String? {
         guard shown.isEmpty else { return nil }
         let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !q.isEmpty { return "No matching items." }
-        if !showhidden && !all.isEmpty { return "No visible items. Enable hidden files to show dotfiles." }
-        return fallback ?? "Directory is empty."
+        if !q.isEmpty { return "无匹配项。" }
+        if !showhidden && !all.isEmpty { return "无可显示项。启用「显示隐藏文件」以显示点文件。" }
+        return fallback ?? "目录为空。"
     }
 
     static func recsearchsbx(root: String, query: String) -> [santanderitem] {
@@ -1300,13 +1300,13 @@ private enum santanderfs {
         
         if exists {
             info.fileExists = exists
-            info.kind = isdir.boolValue ? "directory" : "file"
+            info.kind = isdir.boolValue ? "目录" : "文件"
         }
         
         // get particular file info
         let url = URL(fileURLWithPath: path)
         let keys: Set<URLResourceKey> = [.contentTypeKey, .fileSizeKey, .creationDateKey, .contentModificationDateKey, .isSymbolicLinkKey]
-        
+
         if let values = try? url.resourceValues(forKeys: keys) {
             if let type = values.contentType {
                 info.uttype = type.identifier
@@ -1324,7 +1324,7 @@ private enum santanderfs {
                 info.isSymlink = sym
             }
         }
-        
+
         // now get permissions
         if let attrs = try? fm.attributesOfItem(atPath: path) {
             if let perms = attrs[.posixPermissions] as? NSNumber {
@@ -1337,11 +1337,11 @@ private enum santanderfs {
                 info.group = group
             }
         }
-        
+
         info.readable = fm.isReadableFile(atPath: path)
         info.writable = fm.isWritableFile(atPath: path)
         info.executable = fm.isExecutableFile(atPath: path)
-        
+
         return info
     }
 
@@ -1358,7 +1358,7 @@ private enum santanderfs {
         }
 
         guard let data = readdata(path: item.path, readsbx: readsbx, max: 2 * 1024 * 1024) else {
-            let err = readsbx ? "Failed to read file.\n\n" + unreadabledetails(path: item.path) : "Failed to read file."
+            let err = readsbx ? "读取文件失败。\n\n" + unreadabledetails(path: item.path) : "读取文件失败。"
             return santanderloadedfile(preview: .error(err), text: err, editable: false)
         }
 
@@ -1441,7 +1441,7 @@ private enum santanderfs {
 
     static func render(data: Data) -> (text: String, editable: Bool) {
         if data.isEmpty {
-            return ("(empty file)", true)
+            return ("（空文件）", true)
         }
         if let plist = plisttext(data: data) {
             return (plist, false)
@@ -1502,7 +1502,7 @@ private enum santanderfs {
         let limit = min(data.count, 4096)
         let chunk = data.prefix(limit)
         var lines: [String] = []
-        lines.append("Binary data (\(data.count) bytes). Showing first \(limit) bytes:")
+        lines.append("二进制数据（\(data.count) 字节）。显示前 \(limit) 字节:")
         lines.append("")
 
         var off = 0
@@ -1528,9 +1528,9 @@ private enum santanderfs {
 
         var isdir = ObjCBool(false)
         let exists = fm.fileExists(atPath: path, isDirectory: &isdir)
-        lines.append("Exists: \(exists ? "yes" : "no")")
+        lines.append("存在: \(exists ? "是" : "否")")
         if exists {
-            lines.append("Kind: \(isdir.boolValue ? "directory" : "regular item")")
+            lines.append("类型: \(isdir.boolValue ? "目录" : "常规项目")")
         }
 
         let url = URL(fileURLWithPath: path)
@@ -1540,38 +1540,38 @@ private enum santanderfs {
                 lines.append("UTType: \(type.identifier)")
             }
             if let size = values.fileSize {
-                lines.append("Size: \(size) bytes")
+                lines.append("大小: \(size) 字节")
             }
             if let sym = values.isSymbolicLink {
-                lines.append("Symlink: \(sym ? "yes" : "no")")
+                lines.append("符号链接: \(sym ? "是" : "否")")
             }
             if values.isSymbolicLink == true,
                let target = try? fm.destinationOfSymbolicLink(atPath: path) {
-                lines.append("Symlink target: \(target)")
+                lines.append("符号链接目标: \(target)")
             }
             if let alias = values.isAliasFile {
-                lines.append("Alias file: \(alias ? "yes" : "no")")
+                lines.append("替身文件: \(alias ? "是" : "否")")
             }
         }
 
         if let attrs = try? fm.attributesOfItem(atPath: path) {
             if let filetype = attrs[.type] as? FileAttributeType {
-                lines.append("File attribute type: \(filetype.rawValue)")
+                lines.append("文件属性类型: \(filetype.rawValue)")
             }
             if let owner = attrs[.ownerAccountName] as? String {
-                lines.append("Owner: \(owner)")
+                lines.append("所有者: \(owner)")
             }
             if let group = attrs[.groupOwnerAccountName] as? String {
-                lines.append("Group: \(group)")
+                lines.append("用户组: \(group)")
             }
             if let perms = attrs[.posixPermissions] as? NSNumber {
-                lines.append(String(format: "POSIX perms: %04o", perms.intValue))
+                lines.append(String(format: "POSIX 权限: %04o", perms.intValue))
             }
         }
 
-        lines.append("Readable: \(fm.isReadableFile(atPath: path) ? "yes" : "no")")
-        lines.append("Writable: \(fm.isWritableFile(atPath: path) ? "yes" : "no")")
-        lines.append("Executable: \(fm.isExecutableFile(atPath: path) ? "yes" : "no")")
+        lines.append("可读: \(fm.isReadableFile(atPath: path) ? "是" : "否")")
+        lines.append("可写: \(fm.isWritableFile(atPath: path) ? "是" : "否")")
+        lines.append("可执行: \(fm.isExecutableFile(atPath: path) ? "是" : "否")")
         return lines.joined(separator: "\n")
     }
 
@@ -1666,43 +1666,43 @@ private struct santanderinfosheet: View {
                     }
                 }
                 
-                Section(header: HeaderLabel(text: "File Information", icon: "info.circle")) {
+                Section(header: HeaderLabel(text: "文件信息", icon: "info.circle")) {
                     LabeledContent("UTType") {
                         Text(file.uttype)
                     }
-                    LabeledContent("Creation Date") {
+                    LabeledContent("创建日期") {
                         Text(file.created)
                     }
-                    LabeledContent("Last Modified") {
+                    LabeledContent("最后修改") {
                         Text(file.modified)
                     }
-                    LabeledContent("Symlink") {
+                    LabeledContent("符号链接") {
                         Image(systemName: file.isSymlink ? "checkmark" : "xmark")
                     }
                 }
                 
-                Section(header: HeaderLabel(text: "Permissions", icon: "shield")) {
-                    LabeledContent("POSIX Permissions") {
+                Section(header: HeaderLabel(text: "权限", icon: "shield")) {
+                    LabeledContent("POSIX 权限") {
                         Text(file.posixPerms)
                     }
-                    LabeledContent("Owner") {
+                    LabeledContent("所有者") {
                         Text(file.owner)
                     }
-                    LabeledContent("Group") {
+                    LabeledContent("用户组") {
                         Text(file.group)
                     }
-                    LabeledContent("Readable") {
+                    LabeledContent("可读") {
                         Image(systemName: file.readable ? "checkmark" : "xmark")
                     }
-                    LabeledContent("Writable") {
+                    LabeledContent("可写") {
                         Image(systemName: file.writable ? "checkmark" : "xmark")
                     }
-                    LabeledContent("Executable") {
+                    LabeledContent("可执行") {
                         Image(systemName: file.executable ? "checkmark" : "xmark")
                     }
                 }
             }
-            .navigationTitle("File Info")
+            .navigationTitle("文件信息")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
@@ -1744,7 +1744,7 @@ private struct santandernamesheet: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
+                    Button("取消") {
                         dismiss()
                     }
                 }
@@ -1772,27 +1772,27 @@ private struct santandernewfilesheet: View {
         NavigationStack {
             Form {
                 Section(itemname) {
-                    TextField("Filename", text: $name)
+                    TextField("文件名", text: $name)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
                 }
 
-                Section("Contents") {
+                Section("内容") {
                     TextEditor(text: $text)
                         .frame(minHeight: 180)
                         .font(.system(.body, design: .monospaced))
                 }
             }
-            .navigationTitle("Create File")
+            .navigationTitle("创建文件")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
+                    Button("取消") {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Create") {
+                    Button("创建") {
                         apply(name, text)
                         dismiss()
                     }
@@ -1814,21 +1814,21 @@ private struct santanderchmodsheet: View {
         NavigationStack {
             Form {
                 Section(item.name) {
-                    TextField("e.g. 755", text: $text)
+                    TextField("例如 755", text: $text)
                         .keyboardType(.numberPad)
                         .font(.system(.body, design: .monospaced))
                 }
             }
-            .navigationTitle("Chmod")
+            .navigationTitle("权限修改")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
+                    Button("取消") {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Apply") {
+                    Button("应用") {
                         guard let mode = UInt16(text, radix: 8) else { return }
                         apply(mode)
                         dismiss()
@@ -1852,22 +1852,22 @@ private struct santanderchownsheet: View {
         NavigationStack {
             Form {
                 Section(item.name) {
-                    TextField("UID (e.g. 501)", text: $uid)
+                    TextField("UID（例如 501）", text: $uid)
                         .keyboardType(.numberPad)
-                    TextField("GID (e.g. 501)", text: $gid)
+                    TextField("GID（例如 501）", text: $gid)
                         .keyboardType(.numberPad)
                 }
             }
-            .navigationTitle("Chown")
+            .navigationTitle("所有者修改")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
+                    Button("取消") {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Apply") {
+                    Button("应用") {
                         guard let uid = UInt32(uid), let gid = UInt32(gid) else { return }
                         apply(uid, gid)
                         dismiss()
