@@ -56,7 +56,7 @@ struct ContentView: View {
     private var AlertsSection: some View {
         Section {
             if !mgr.hasOffsets {
-                PlainAlert(title: "No offsets found!", icon: "exclamationmark.triangle.fill", text: "Kernelcache offsets are missing. Click \"Run Exploit\" and then fetch the offsets.")
+                PlainAlert(title: "未找到偏移量！", icon: "exclamationmark.triangle.fill", text: "缺少 Kernelcache 偏移量。请在设置中下载。请点击 \"运行漏洞\" ，然后获取偏移量。")
             }
         }
     }
@@ -75,7 +75,7 @@ struct ContentView: View {
                     Image(systemName: "xmark.circle")
                 }
             }) {
-                Button("Run Exploit", action: {
+                Button("运行漏洞", action: {
                     offsets_init()
                     mgr.run()
                 })
@@ -107,84 +107,84 @@ struct ContentView: View {
                 } label: {
                     if dlingkcache {
                         HStack {
-                            Text("Fetching Kernelcache...")
+                            Text("正在获取 Kernelcache...")
                             Spacer()
                             ProgressView()
                         }
                     } else {
-                        Text("Fetch Kernelcache")
+                        Text("获取 Kernelcache")
                     }
                 }
                 .disabled(dlingkcache || !mgr.dsready)
             } else {
-                if selectedmethod == .hybrid {
-                    LabeledContent(content: {
-                        if mgr.vfsready && mgr.sbxready {
-                            Image(systemName: "checkmark.circle")
-                        } else if mgr.vfsrunning || mgr.sbxrunning {
-                            HStack {
-                                Text("Running...")
-                                ProgressView()
-                            }
-                        } else if (mgr.vfsattempted && mgr.vfsfailed) || (mgr.sbxattempted && mgr.sbxfailed) {
-                            Image(systemName: "xmark.circle")
+            if selectedmethod == .hybrid {
+                LabeledContent(content: {
+                    if mgr.vfsready && mgr.sbxready {
+                        Image(systemName: "checkmark.circle")
+                    } else if mgr.vfsrunning || mgr.sbxrunning {
+                        HStack {
+                            Text("运行中...")
+                            ProgressView()
                         }
-                    }) {
-                        Button("Initialize System", action: {
-                            mgr.vfsinit()
-                            mgr.sbxescape()
-                        })
-                        .disabled(!mgr.hasOffsets || !mgr.dsready || mgr.vfsrunning || mgr.sbxrunning || (mgr.vfsready && mgr.sbxready))
+                    } else if (mgr.vfsattempted && mgr.vfsfailed) || (mgr.sbxattempted && mgr.sbxfailed) {
+                        Image(systemName: "xmark.circle")
                     }
+                }) {
+                    Button("初始化系统", action: {
+                        mgr.vfsinit()
+                        mgr.sbxescape()
+                    })
+                    .disabled(!mgr.hasOffsets || !mgr.dsready || mgr.vfsrunning || mgr.sbxrunning || (mgr.vfsready && mgr.sbxready))
                 }
-                
-                // initalize vfs
-                if selectedmethod == .vfs {
-                    LabeledContent(content: {
-                        if mgr.vfsready {
-                            Image(systemName: "checkmark.circle")
-                        } else if mgr.vfsrunning {
-                            HStack {
-                                Text("\(Int(mgr.dsprogress * 100))%")
-                                ProgressView()
-                            }
-                        } else if mgr.vfsattempted && mgr.vfsfailed {
-                            Image(systemName: "xmark.circle")
+            }
+            
+            // initalize vfs
+            if selectedmethod == .vfs {
+                LabeledContent(content: {
+                    if mgr.vfsready {
+                        Image(systemName: "checkmark.circle")
+                    } else if mgr.vfsrunning {
+                        HStack {
+                            Text("\(Int(mgr.dsprogress * 100))%")
+                            ProgressView()
                         }
-                    }) {
-                        Button("Initialize VFS", action: {
-                            mgr.vfsinit()
-                        })
-                        .disabled(!mgr.dsready || mgr.vfsready || mgr.vfsrunning || isdebugged())
+                    } else if mgr.vfsattempted && mgr.vfsfailed {
+                        Image(systemName: "xmark.circle")
                     }
+                }) {
+                    Button("初始化 VFS", action: {
+                        mgr.vfsinit()
+                    })
+                    .disabled(!mgr.dsready || mgr.vfsready || mgr.vfsrunning || isdebugged())
                 }
-                
-                // escape sandbox
-                if selectedmethod == .sbx {
-                    LabeledContent(content: {
-                        if mgr.sbxready {
-                            Image(systemName: "checkmark.circle")
-                        } else if mgr.sbxrunning {
-                            HStack {
-                                Text("Running...")
-                                ProgressView()
-                            }
-                        } else if mgr.sbxattempted && mgr.sbxfailed {
-                            Image(systemName: "xmark.circle")
+            }
+            
+            // escape sandbox
+            if selectedmethod == .sbx {
+                LabeledContent(content: {
+                    if mgr.sbxready {
+                        Image(systemName: "checkmark.circle")
+                    } else if mgr.sbxrunning {
+                        HStack {
+                            Text("运行中...")
+                            ProgressView()
                         }
-                    }) {
-                        Button("Escape Sandbox", action: {
-                            mgr.sbxescape()
-                        })
-                        .disabled(!mgr.dsready || mgr.sbxready || mgr.sbxrunning || isdebugged())
+                    } else if mgr.sbxattempted && mgr.sbxfailed {
+                        Image(systemName: "xmark.circle")
+                    }
+                }) {
+                    Button("逃逸沙盒", action: {
+                        mgr.sbxescape()
+                    })
+                    .disabled(!mgr.dsready || mgr.sbxready || mgr.sbxrunning || isdebugged())
                     }
                 }
             }
         } header: {
-            HeaderLabel(text: "Kernel Read Write", icon: "externaldrive")
+            HeaderLabel(text: "内核读写", icon: "externaldrive")
         } footer: {
             if isdebugged() {
-                Text("Not available while a debugger is attached.")
+                Text("调试器连接时不可用。")
             }
         }
     }
@@ -199,14 +199,14 @@ struct ContentView: View {
                         Image(systemName: "checkmark.circle")
                     } else if mgr.rcrunning {
                         HStack {
-                            Text("Running...")
+                            Text("运行中...")
                             ProgressView()
                         }
                     } else if mgr.rcfailed {
                         Image(systemName: "xmark.circle")
                     }
                 }) {
-                    Button("Initalize RemoteCall", action: {
+                    Button("初始化 RemoteCall", action: {
                         mgr.rcinit(process: "SpringBoard", migbypass: false) { success in
                             if success {
                                 mgr.logmsg("rc init succeeded!")
@@ -223,7 +223,7 @@ struct ContentView: View {
                 
                 // destroy remotecall
                 if mgr.rcready {
-                    Button("Destroy Remotecall", action: {
+                    Button("终止 RemoteCall", action: {
                         mgr.rcdestroy()
                     })
                 }
@@ -231,33 +231,33 @@ struct ContentView: View {
                 HeaderLabel(text: "RemoteCall", icon: "syringe")
             } footer: {
                 if let error = mgr.rcLastError ?? mgr.sbProc?.lastError {
-                    Text("Error: \(error)")
+                    Text("错误：\(error)")
                         .foregroundColor(.red)
                 }
                 if RemoteCall.isLiveContainerRuntime() && !RemoteCall.isLiveProcessRuntime() {
-                    Text("RemoteCall needs a PAC-enabled LiveContainer launch context. The main exploit may still work when RemoteCall is unavailable.")
+                    Text("RemoteCall 需要启用 PAC 的 LiveContainer 启动环境。当 RemoteCall 不可用时，主漏洞可能仍可正常工作。")
                 }
                 if isdebugged() {
-                    Text("Not available when a debugger is attached.")
+                    Text("调试器连接时不可用。")
                 }
-                Text("RemoteCall is relatively unstable and may not work properly.")
+                Text("RemoteCall 相对不稳定，可能无法正常工作。")
             }
             #endif
         }
     }
     
     private var ActionsSection: some View {
-        Section(header: HeaderLabel(text: "Actions", icon: "wrench.and.screwdriver")) {
-            Button("Respring", action: {
+        Section(header: HeaderLabel(text: "操作", icon: "wrench.and.screwdriver")) {
+            Button("注销", action: {
                 mgr.respring()
             })
             
-            Button("Panic!", action: {
+            Button("重启", action: {
                 mgr.panic()
             })
             
             if isdebugged() {
-                Button("Detach Debugger", action: {
+                Button("分离调试器", action: {
                     exit(0)
                 })
             }
@@ -268,7 +268,7 @@ struct ContentView: View {
         Group {
             if weonadebugbuild_pjbweouttahereexclamationmark {
                 if mgr.dsready {
-                    Section(header: HeaderLabel(text: "Debug Only", icon: "ant")) {
+                    Section(header: HeaderLabel(text: "仅调试", icon: "ant")) {
                         LabeledContent("kernel_base") {
                             Text(String(format: "0x%llx", mgr.kernbase))
                                 .font(.system(.body, design: .monospaced))
@@ -315,17 +315,17 @@ struct ContentView: View {
                 }
                 .frame(height: 250)
                 
-                Button("Copy All") {
+                Button("全部拷贝") {
                     UIPasteboard.general.string = logger.logs.joined(separator: "\n\n")
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 }
                 
-                Button("Clear") {
+                Button("清除") {
                     logger.clear()
                 }
                 .foregroundColor(.red)
             } header: {
-                HeaderLabel(text: "Logs", icon: "terminal")
+                HeaderLabel(text: "日志", icon: "terminal")
             }
         }
     }
