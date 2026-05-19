@@ -49,27 +49,27 @@ struct GestaltView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(header: HeaderLabel(text: "Applying", icon: "checkmark")) {
+                Section(header: HeaderLabel(text: "应用", icon: "checkmark")) {
                     Button {
                         applyGestalt()
                     } label: {
-                        Text("Apply MobileGestalt")
+                        Text("应用 MobileGestalt")
                     }
                     
                     Button {
                         resetnugget()
                         restoreGestalt()
                     } label: {
-                        Text("Reset MobileGestalt")
+                        Text("重置 MobileGestalt")
                     }
                 }
                 
                 // artwork tweaks will be added when applying mobilegestalt because there's no "toggleable" bindings.
-                Section(header: HeaderLabel(text: "Device Artwork", icon: "paintbrush.pointed")) {
+                Section(header: HeaderLabel(text: "设备外观", icon: "paintbrush.pointed")) {
                     Picker(selection: $mgSubtype) {
-                        Text("Original (\(mgOriginalSubtype))").tag(mgOriginalSubtype)
+                        Text("默认 (\(mgOriginalSubtype))").tag(mgOriginalSubtype)
                         if isDeviceNotBroke() {
-                            Text("Disable Dynamic Island").tag(2436)
+                            Text("禁用灵动岛").tag(2436)
                         }
                         Text("iPhone 14 Pro").tag(2436)
                         Text("iPhone 14 Pro Max").tag(2796)
@@ -82,52 +82,52 @@ struct GestaltView: View {
                             Text("iPhone Air").tag(2736)
                         }
                         if UIDevice._hasHomeButton() {
-                            Text("iPhone X Gestures").tag(2436)
+                            Text("iPhone X 手势").tag(2436)
                         }
                     } label: {
                         HStack(spacing: 12) {
                             Image(systemName: "iphone")
                                 .frame(width: 20, alignment: .center)
-                            Text("Subtype")
+                            Text("子类型")
                             Spacer()
                         }
                     }
                     
-                    Toggle("Custom Device Name", isOn: $mgEnableDeviceName)
+                    Toggle("自定义设备名称", isOn: $mgEnableDeviceName)
                     
                     if mgEnableDeviceName {
-                        TextField("Device Name", text: $mgDeviceName)
+                        TextField("设备名称", text: $mgDeviceName)
                     }
                 }
                 
                 // basic tweak toggles
-                Section(header: HeaderLabel(text: "Software-Oriented Features", icon: "gearshape")) {
-                    PlainToggle(text: "Dynamic Island", icon: "platter.filled.top.iphone", minSupportedVersion: 19.0, isOn: mgKeyBinding(["YlEtTtHlNesRBMal1CqRaA"]))
-                    PlainToggle(text: "Always On Display", icon: "sun.max", minSupportedVersion: 18.0, isOn: mgKeyBinding(["j8/Omm6s1lsmTDFsXjsBfA", "2OOJf1VhaM7NxfRok3HbWQ"]))
-                    PlainToggle(text: "AOD Vibrancy", icon: "rays", minSupportedVersion: 18.0, isOn: mgKeyBinding(["ykpu7qyhqFweVMKtxNylWA"]))
-                    PlainToggle(text: "Charge Limit", icon: "battery.100.bolt", minSupportedVersion: 17.0, isOn: mgKeyBinding(["37NVydb//GP/GrhuTN+exg"]))
-                    PlainToggle(text: "Boot Chime", icon: "speaker.wave.3", isOn: mgKeyBinding(["QHxt+hGLaBPbQJbXiUJX3w"]))
-                    PlainToggle(text: "Liquid Glass LPM", icon: "app.background.dotted", minSupportedVersion: 19.0, isOn: mgKeyBinding(["SAGvsp6O6kAQ4fEfDJpC4Q"]))
+                Section(header: HeaderLabel(text: "软件功能", icon: "gearshape")) {
+                    PlainToggle(text: "灵动岛", icon: "platter.filled.top.iphone", minSupportedVersion: 19.0, isOn: mgKeyBinding(["YlEtTtHlNesRBMal1CqRaA"]))
+                    PlainToggle(text: "全天候显示", icon: "sun.max", minSupportedVersion: 18.0, isOn: mgKeyBinding(["j8/Omm6s1lsmTDFsXjsBfA", "2OOJf1VhaM7NxfRok3HbWQ"]))
+                    PlainToggle(text: "全天候显示色彩饱和度", icon: "rays", minSupportedVersion: 18.0, isOn: mgKeyBinding(["ykpu7qyhqFweVMKtxNylWA"]))
+                    PlainToggle(text: "充电上限", icon: "battery.100.bolt", minSupportedVersion: 17.0, isOn: mgKeyBinding(["37NVydb//GP/GrhuTN+exg"]))
+                    PlainToggle(text: "开机铃声", icon: "speaker.wave.3", isOn: mgKeyBinding(["QHxt+hGLaBPbQJbXiUJX3w"]))
+                    PlainToggle(text: "液态玻璃低电量模式", icon: "app.background.dotted", minSupportedVersion: 19.0, isOn: mgKeyBinding(["SAGvsp6O6kAQ4fEfDJpC4Q"]))
                 }
                 
-                Section(header: HeaderLabel(text: "Hardware-Oriented Features", icon: "iphone")) {
-                    PlainToggle(text: "Camera Control", icon: "camera.shutter.button", minSupportedVersion: 18.0, isOn: mgKeyBinding(["CwvKxM2cEogD3p+HYgaW0Q", "oOV1jhJbdV3AddkcCg0AEA"]))
-                    PlainToggle(text: "Action Button", icon: "button.vertical.left.press", minSupportedVersion: 17.0, isOn: mgKeyBinding(["cT44WE1EohiwRzhsZ8xEsw"]))
-                    PlainToggle(text: "Crash Detection", icon: "car", isOn: mgKeyBinding(["HCzWusHQwZDea6nNhaKndw"]))
+                Section(header: HeaderLabel(text: "硬件功能", icon: "iphone")) {
+                    PlainToggle(text: "相机控制", icon: "camera.shutter.button", minSupportedVersion: 18.0, isOn: mgKeyBinding(["CwvKxM2cEogD3p+HYgaW0Q", "oOV1jhJbdV3AddkcCg0AEA"]))
+                    PlainToggle(text: "操作按钮", icon: "button.vertical.left.press", minSupportedVersion: 17.0, isOn: mgKeyBinding(["cT44WE1EohiwRzhsZ8xEsw"]))
+                    PlainToggle(text: "车祸检测", icon: "car", isOn: mgKeyBinding(["HCzWusHQwZDea6nNhaKndw"]))
                     if UIDevice._hasHomeButton() {
-                        PlainToggle(text: "Enable Tap to Wake", icon: "hand.tap", isOn: mgKeyBinding(["yZf3GTRMGTuwSV/lD7Cagw"]))
+                        PlainToggle(text: "启用轻点唤醒", icon: "hand.tap", isOn: mgKeyBinding(["yZf3GTRMGTuwSV/lD7Cagw"]))
                     }
-                    PlainToggle(text: "Pulse Width Modulation", icon: "eye", minSupportedVersion: 19.0, isOn: mgKeyBinding(["6IejgN+1Fmu5/QrZFOIeNw"]))
+                    PlainToggle(text: "PWM 调光", icon: "eye", minSupportedVersion: 19.0, isOn: mgKeyBinding(["6IejgN+1Fmu5/QrZFOIeNw"]))
                 }
                 
                 // some odd bindings in here that i dislike.
-                Section(header: HeaderLabel(text: "Eligibility", icon: "checklist")) {
-                    PlainToggle(text: "Security Research Device UI", icon: "terminal", minSupportedVersion: 26.0, isOn: mgKeyBinding(["XYlJKKkj2hztRP1NWWnhlw"]))
-                    PlainToggle(text: "Disable Region Restrictions", icon: "globe", isOn: mgRegionRestrictionsBinding())
+                Section(header: HeaderLabel(text: "资格", icon: "checklist")) {
+                    PlainToggle(text: "安全研究设备界面", icon: "terminal", minSupportedVersion: 26.0, isOn: mgKeyBinding(["XYlJKKkj2hztRP1NWWnhlw"]))
+                    PlainToggle(text: "禁用区域限制", icon: "globe", isOn: mgRegionRestrictionsBinding())
                     PlainToggle(text: "Apple Intelligence", icon: "apple.intelligence", minSupportedVersion: 18.1, isOn: mgKeyBinding(["A62OafQ85EJAiiqKn4agtg"]))
                     HStack(spacing: 10) {
-                        Picker("Spoofing", selection: $mgProductType) {
-                            Text("Default").tag(machineName())
+                        Picker("伪装", selection: $mgProductType) {
+                            Text("默认").tag(machineName())
                             if UIDevice.current.userInterfaceIdiom == .pad {
                                 if doubleSystemVersion() >= 17.4 {
                                     Text("iPad Pro 11-inch (M4)").tag("iPad16,3")
@@ -154,7 +154,7 @@ struct GestaltView: View {
                         }
                         
                         Button(action: {
-                            Alertinator.shared.alert(title: "Device Spoofing Info", body: "Only spoof your device model if you want to download Apple Intelligence. This may break Face ID. If you decide to unspoof and want to keep Apple Intelligence, do NOT re-enter the Apple Intelligence & Siri menu in Settings.")
+                            Alertinator.shared.alert(title: "设备伪装信息", body: "仅当您想下载 Apple Intelligence 时才伪装设备型号。这可能导致面容 ID 失效。如果您决定取消伪装并保留 Apple Intelligence，请勿重新进入设置中的 Apple Intelligence 与 Siri 菜单。")
                         }) {
                             Image(systemName: "info.circle")
                                 .frame(width: 24, height: 22)
@@ -163,27 +163,27 @@ struct GestaltView: View {
                     }
                 }
                 
-                Section(header: HeaderLabel(text: "iPadOS Features", icon: "ipad")) {
+                Section(header: HeaderLabel(text: "iPadOS 功能", icon: "ipad")) {
                     let cacheExtra = mgCurrentDict["CacheExtra"] as? NSMutableDictionary
                     
-                    PlainToggle(text: "Allow Installing iPadOS Apps", icon: "plus.app", isOn: mgKeyBinding(["9MZ5AdH43csAUajl/dU+IQ"], type: [Int].self, defaultValue: [1], enableValue: [1, 2]))
-                    PlainToggle(text: "Apple Pencil Settings", icon: "pencil", isOn: mgKeyBinding(["yhHcB0iH0d1XzPO/CFd3ow"]))
+                    PlainToggle(text: "允许安装 iPadOS 应用", icon: "plus.app", isOn: mgKeyBinding(["9MZ5AdH43csAUajl/dU+IQ"], type: [Int].self, defaultValue: [1], enableValue: [1, 2]))
+                    PlainToggle(text: "Apple Pencil 设置", icon: "pencil", isOn: mgKeyBinding(["yhHcB0iH0d1XzPO/CFd3ow"]))
                     if UIDevice.current.userInterfaceIdiom == .pad {
-                        PlainToggle(text: "Stage Manager", icon: "squares.leading.rectangle", isOn: mgKeyBinding(["qeaj75wk3HF4DwQ8qbIi7g"]))
+                        PlainToggle(text: "台前调度", icon: "squares.leading.rectangle", isOn: mgKeyBinding(["qeaj75wk3HF4DwQ8qbIi7g"]))
                     }
-                    PlainToggle(text: "iPadOS UI", icon: "ipad", infoType: .warning, infoMessage: "This is a very dangerous tweak to use! If you use an alphanumeric passcode, DO NOT USE THIS TWEAK AT ALL! Please do not turn off \"Show Dock In Stage Manager\" or your device will BOOTLOOP when rotating to landscape! With these two things in mind, you may experience general instability, or other major issues such as app data randomly disappearing. But I guess some funny multitasking features that still make the device relatively unusable are cool? Whatever dude, I'm not here to tell you how to use your own device.", isOn: mgTrollPadBinding())
+                    PlainToggle(text: "iPadOS 界面", icon: "ipad", infoType: .warning, infoMessage: "这是一个非常危险的调整！如果您使用字母数字密码，请绝对不要使用此调整！请不要关闭「台前调度中显示 Dock 栏」，否则横屏时设备将无限重启！除此之外，您可能会遇到普遍不稳定或其他重大问题，如应用数据随机消失。不过我想一些有趣的多任务功能即使让设备相对不可用也挺酷的？随便吧，我不是来教您如何使用自己设备的。", isOn: mgTrollPadBinding())
                         .disabled(cacheExtra?["+3Uf0Pm5F8Xy7Onyvko0vA"] as? String != "iPhone")
                 }
                 
-                Section(header: HeaderLabel(text: "Internal", icon: "ant")) {
-                    PlainToggle(text: "Internal Storage", icon: "externaldrive", isOn: mgKeyBinding(["LBJfwOEzExRxzlAnSuI7eg"]))
-                    PlainToggle(text: "Internal Features", icon: "gearshape", isOn: mgInternalStuffBinding())
-                    PlainToggle(text: "Metal HUD in All Apps", icon: "terminal", isOn: mgKeyBinding(["EqrsVvjcYDdxHBiQmGhAWw"]))
+                Section(header: HeaderLabel(text: "内部", icon: "ant")) {
+                    PlainToggle(text: "内部存储", icon: "externaldrive", isOn: mgKeyBinding(["LBJfwOEzExRxzlAnSuI7eg"]))
+                    PlainToggle(text: "内部功能", icon: "gearshape", isOn: mgInternalStuffBinding())
+                    PlainToggle(text: "全局开启 Metal HUD", icon: "terminal", isOn: mgKeyBinding(["EqrsVvjcYDdxHBiQmGhAWw"]))
                 }
                 
                 Section {
                     PlainToggle(
-                        text: "Hide Dynamic Island Completely",
+                        text: "完全隐藏灵动岛",
                         icon: "capsule",
                         isOn: nuggetbinding(
                             "SBSuppressDynamicIslandCompletely",
@@ -192,7 +192,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Authentication Debug Line",
+                        text: "认证调试线",
                         icon: "faceid",
                         isOn: nuggetbinding(
                             "SBShowAuthenticationEngineeringUI",
@@ -201,7 +201,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Show Build Version",
+                        text: "显示构建版本",
                         icon: "number",
                         isOn: nuggetbinding(
                             "UIStatusBarShowBuildVersion",
@@ -210,7 +210,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Force RTL Layout",
+                        text: "强制 RTL 布局",
                         icon: "arrow.left",
                         isOn: nuggetbinding(
                             "NSForceRightToLeftWritingDirection",
@@ -219,7 +219,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Keyboard Character Flick",
+                        text: "键盘字符滑动",
                         icon: "keyboard",
                         isOn: nuggetbinding(
                             "GesturesEnabled",
@@ -228,7 +228,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Disable Breadcrumbs",
+                        text: "禁用路径导航条",
                         icon: "chevron.backward",
                         isOn: nuggetbinding(
                             "SBNeverBreadcrumb",
@@ -236,12 +236,12 @@ struct GestaltView: View {
                         )
                     )
                 } header: {
-                    HeaderLabel(text: "UI Tweaks", icon: "eye")
+                    HeaderLabel(text: "界面调整", icon: "eye")
                 }
                 
                 Section {
                     PlainToggle(
-                        text: "Disable Lock After Respring",
+                        text: "注销后禁止锁定",
                         icon: "lock.open",
                         isOn: nuggetbinding(
                             "SBDontLockAfterCrash",
@@ -250,7 +250,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Disable Low Battery Alerts",
+                        text: "禁用低电量提醒",
                         icon: "battery.25",
                         isOn: nuggetbinding(
                             "SBHideLowPowerAlerts",
@@ -259,7 +259,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Show Dynamic Island in Screenshots",
+                        text: "截图中显示灵动岛",
                         icon: "camera",
                         isOn: nuggetbinding(
                             "SBAlwaysShowSystemApertureInSnapshots",
@@ -268,7 +268,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Play Sound on Paste",
+                        text: "粘贴时播放声音",
                         icon: "speaker.wave.2",
                         isOn: nuggetbinding(
                             "PlaySoundOnPaste",
@@ -277,7 +277,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "System Paste Notifications",
+                        text: "系统粘贴通知",
                         icon: "doc.on.clipboard",
                         isOn: nuggetbinding(
                             "AnnounceAllPastes",
@@ -285,12 +285,12 @@ struct GestaltView: View {
                         )
                     )
                 } header: {
-                    HeaderLabel(text: "System Tweaks", icon: "gear")
+                    HeaderLabel(text: "系统调整", icon: "gear")
                 }
                 
                 Section {
                     PlainToggle(
-                        text: "Disable Lock After Respring",
+                        text: "注销后禁止锁定",
                         icon: "lock.open",
                         isOn: nuggetbinding(
                             "SBDontLockAfterCrash",
@@ -299,7 +299,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Disable Low Battery Alerts",
+                        text: "禁用低电量提醒",
                         icon: "battery.25",
                         isOn: nuggetbinding(
                             "SBHideLowPowerAlerts",
@@ -308,7 +308,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Show Dynamic Island in Screenshots",
+                        text: "截图中显示灵动岛",
                         icon: "camera",
                         isOn: nuggetbinding(
                             "SBAlwaysShowSystemApertureInSnapshots",
@@ -317,7 +317,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Play Sound on Paste",
+                        text: "粘贴时播放声音",
                         icon: "speaker.wave.2",
                         isOn: nuggetbinding(
                             "PlaySoundOnPaste",
@@ -326,7 +326,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "System Paste Notifications",
+                        text: "系统粘贴通知",
                         icon: "doc.on.clipboard",
                         isOn: nuggetbinding(
                             "AnnounceAllPastes",
@@ -334,12 +334,12 @@ struct GestaltView: View {
                         )
                     )
                 } header: {
-                    HeaderLabel(text: "System Tweaks", icon: "gear")
+                    HeaderLabel(text: "系统调整", icon: "gear")
                 }
                 
                 Section {
                     PlainToggle(
-                        text: "Metal HUD Debug",
+                        text: "Metal HUD 调试",
                         icon: "cpu",
                         isOn: nuggetbinding(
                             "MetalForceHudEnabled",
@@ -348,7 +348,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "App Store Debug Gesture",
+                        text: "App Store 调试手势",
                         icon: "hand.tap",
                         isOn: nuggetbinding(
                             "debugGestureEnabled",
@@ -357,7 +357,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Notes Debug Mode",
+                        text: "备忘录调试模式",
                         icon: "note.text",
                         isOn: nuggetbinding(
                             "DebugModeEnabled",
@@ -366,7 +366,7 @@ struct GestaltView: View {
                     )
 
                     PlainToggle(
-                        text: "Show Touches",
+                        text: "显示触摸",
                         icon: "hand.point.up.left",
                         isOn: nuggetbinding(
                             "BKDigitizerVisualizeTouches",
@@ -374,10 +374,10 @@ struct GestaltView: View {
                         )
                     )
                 } header: {
-                    HeaderLabel(text: "Debug", icon: "ladybug")
+                    HeaderLabel(text: "调试", icon: "ladybug")
                 }
             }
-            .navigationTitle("MobileGesalt")
+            .navigationTitle("MobileGestalt")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
@@ -398,13 +398,13 @@ struct GestaltView: View {
             .sheet(isPresented: $mgShowFileSheet) {
                 GestaltFileView()
             }
-            .alert("Warning", isPresented: $showgestaltwarn) {
-                Button("Alright.", role: .cancel) {
+            .alert("警告", isPresented: $showgestaltwarn) {
+                Button("知道了。", role: .cancel) {
                     showgestaltwarn = false
                     gestaltwarn = false
                 }
             } message: {
-                Text("This stuff is risky! You may temporarily break your device, cause it to crash, or even bootloop. Dont say I didnt warn you.")
+                Text("这些东西有风险！您可能会暂时搞坏设备、导致崩溃甚至无限重启。别说我没警告过您。")
             }
         }
     }
@@ -415,7 +415,7 @@ struct GestaltView: View {
             print(mgCurrentDict.description)
             prepareGestaltData()
         } catch {
-            Alertinator.shared.alert(title: "Failed to load current MobileGestalt!", body: "Please restart the app and try again.")
+            Alertinator.shared.alert(title: "加载当前 MobileGestalt 失败！", body: "请重启应用并重试。")
         }
     }
     
@@ -454,7 +454,7 @@ struct GestaltView: View {
                 mgDeviceName = deviceName
             }
         } catch {
-            Alertinator.shared.alert(title: "Failed to load data from MobileGestalt!", body: "Please restart the app and try again.\n\nError: \(error)")
+            Alertinator.shared.alert(title: "加载 MobileGestalt 数据失败！", body: "请重启应用并重试。\n\nError: \(error)")
         }
     }
     
@@ -485,12 +485,12 @@ struct GestaltView: View {
             let result = mgr.lara_overwritefile(target: mgCurrentPath, data: mgData)
             
             if result.ok {
-                Alertinator.shared.alert(title: "Successfully applied MobileGestalt!", body: "Respring to see any changes", actionLabel: "Respring", action: { mgr.respring() })
+                Alertinator.shared.alert(title: "MobileGestalt 应用成功！", body: "注销以查看更改", actionLabel: "注销", action: { mgr.respring() })
             } else {
                 throw "Overwrite failed: \(result.message)"
             }
         } catch {
-            Alertinator.shared.alert(title: "Failed to overwrite MobileGestalt!", body: "\(error)")
+            Alertinator.shared.alert(title: "覆写 MobileGestalt 失败！", body: "\(error)")
         }
     }
     
@@ -507,7 +507,7 @@ struct GestaltView: View {
                 throw "No MobileGestalt file found!"
             }
         } catch {
-            Alertinator.shared.alert(title: "Failed to restore MobileGestalt!", body: "\(error)")
+            Alertinator.shared.alert(title: "恢复 MobileGestalt 失败！", body: "\(error)")
         }
     }
     
@@ -581,7 +581,7 @@ struct GestaltView: View {
             return false
         }, set: { enabled in
             if enabled {
-                Alertinator.shared.alert(title: "Warning!", body: "This is a very dangerous tweak to use! If you use an alphanumeric passcode, DO NOT USE THIS TWEAK AT ALL! Please do not turn off \"Show Dock In Stage Manager\" or your device will BOOTLOOP when rotating to landscape! With these two things in mind, you may experience general instability, or other major issues such as app data randomly disappearing. But I guess some funny multitasking features that still make the device relatively unusable are cool? Whatever dude, I'm not here to tell you how to use your own device.")
+                Alertinator.shared.alert(title: "警告！", body: "这是一个非常危险的调整！如果您使用字母数字密码，请绝对不要使用此调整！请不要关闭「台前调度中显示 Dock 栏」，否则横屏时设备将无限重启！除此之外，您可能会遇到普遍不稳定或其他重大问题，如应用数据随机消失。不过我想一些有趣的多任务功能即使让设备相对不可用也挺酷的？随便吧，我不是来教您如何使用自己设备的。")
             }
             cacheData.mutableBytes.storeBytes(of: enabled ? 3 : 1, toByteOffset: valueOffset, as: Int.self)
             for key in keys {
@@ -606,7 +606,7 @@ struct GestaltView: View {
             },
             set: { enabled in
                 if enabled {
-                    Alertinator.shared.alert(title: "Warning!", body: "Please do not use this feature to bypass region restrictions that would equate to breaking regional laws (e.g. disabling the camera shutter sound). We will NOT be held responsible for enabling any illegal activites!")
+                    Alertinator.shared.alert(title: "警告！", body: "请不要使用此功能绕过会导致违反区域法律的区域限制（例如禁用相机快门声）。我们不会为启用任何非法活动承担责任！")
                     cacheExtra["h63QSdBCiT/z0WU6rdQv6Q"] = "US"
                     cacheExtra["zHeENZu+wbg7PUprwNwBWg"] = "LL/A"
                 } else {
@@ -707,7 +707,7 @@ struct GestaltView: View {
 
                 if !result.ok {
                     Alertinator.shared.alert(
-                        title: "Failed to Apply Tweak",
+                        title: "应用调整失败",
                         body: result.message
                     )
                 }
@@ -776,8 +776,8 @@ func verifyPlist(_ plist: Any, targetPath: String) throws -> Data {
         if let current = attrs[.size] as? NSNumber,
            current.intValue == 0 {
             Alertinator.shared.alert(
-                title: "Dangerous Plist State Detected",
-                body: "The current plist file is already 0 bytes. Overwriting has been aborted to prevent corruption."
+                title: "检测到危险的 Plist 状态",
+                body: "当前 plist 文件已是 0 字节。已中止覆写以防止损坏。"
             )
             throw "Current MobileGestalt file is 0 bytes."
         }
@@ -785,8 +785,8 @@ func verifyPlist(_ plist: Any, targetPath: String) throws -> Data {
     
     guard PropertyListSerialization.propertyList(plist, isValidFor: .binary) else {
         Alertinator.shared.alert(
-            title: "Invalid Property List",
-            body: "The plist is invalid and cannot be written safely."
+            title: "无效的属性列表",
+            body: "plist 无效，无法安全写入。"
         )
         throw "Invalid plist structure."
     }
@@ -799,8 +799,8 @@ func verifyPlist(_ plist: Any, targetPath: String) throws -> Data {
     
     if data.isEmpty || data.count == 0 {
         Alertinator.shared.alert(
-            title: "Refusing Empty Plist Write",
-            body: "The generated plist would become 0 bytes after overwrite. Operation cancelled."
+            title: "拒绝写入空的 Plist",
+            body: "生成的 plist 覆写后将变为 0 字节。操作已取消。"
         )
         throw "Serialized plist data is empty."
     }
@@ -813,8 +813,8 @@ func verifyPlist(_ plist: Any, targetPath: String) throws -> Data {
         )
     } catch {
         Alertinator.shared.alert(
-            title: "Invalid Serialized Property List",
-            body: "The generated plist failed validation after serialization."
+            title: "无效的序列化属性列表",
+            body: "生成的 plist 序列化后校验失败。"
         )
         throw "Serialized plist validation failed."
     }
