@@ -58,7 +58,7 @@ struct DarkBoardView: View {
                 Button {
                     applyThemes()
                 } label: {
-                    Text("Apply Themes")
+                    Text("应用主题")
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(manager.selectedThemeNames.isEmpty ? Color.secondary.opacity(0.25) : Color.accentColor)
@@ -93,11 +93,11 @@ struct DarkBoardView: View {
             ThemeImportPicker(selectedURL: $pendingImportURL)
         }
         .alert(item: $alert) { alert in
-            Alert(title: Text("DarkBoard"), message: Text(alert.message), dismissButton: .default(Text("OK")))
+            Alert(title: Text("DarkBoard"), message: Text(alert.message), dismissButton: .default(Text("确定")))
         }
         .overlay {
             if manager.isApplying {
-                progressOverlay(title: "Applying Icons", message: manager.applyMessage, progress: manager.applyProgress)
+                progressOverlay(title: "正在应用图标", message: manager.applyMessage, progress: manager.applyProgress)
             }
         }
         .onAppear {
@@ -115,7 +115,7 @@ struct DarkBoardView: View {
     private var helperCards: some View {
         VStack(spacing: 12) {
             if !mgr.sbxready {
-                Text("Initialize SBX first. This icon themer uses SBX-backed file reads and writes, then restores backups after the respring fixup.")
+                Text("请先初始化 SBX。此图标主题工具使用 SBX 进行文件读写，然后在注销修复后恢复备份。")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .padding()
@@ -126,18 +126,18 @@ struct DarkBoardView: View {
 
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Themes")
+                    Text("主题")
                         .font(.headline)
-                    Text("\(manager.themes.count) imported")
+                    Text("已导入 \(manager.themes.count) 个")
                         .foregroundStyle(.secondary)
                         .font(.caption)
                 }
                 Spacer()
-                NavigationLink("Explore") {
+                NavigationLink("浏览") {
                     DarkBoardExploreView()
                 }
                 .buttonStyle(.bordered)
-                NavigationLink("Overrides") {
+                NavigationLink("覆盖") {
                     IconOverridesView()
                 }
                 .buttonStyle(.bordered)
@@ -147,7 +147,7 @@ struct DarkBoardView: View {
             .clipShape(RoundedRectangle(cornerRadius: 16))
 
             if manager.themes.isEmpty {
-                Text("Import a folder, `.theme`, or `.zip` containing `IconBundles/<bundle-id>.png` icons.")
+                Text("导入包含 `IconBundles/<bundle-id>.png` 图标的文件夹、`.theme` 或 `.zip` 文件。")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .padding()
@@ -174,7 +174,7 @@ struct DarkBoardView: View {
 
     private func applyThemes() {
         guard mgr.sbxready else {
-            alert = DarkBoardAlert(message: "SBX is not initialized. Run the exploit, initialize SBX, then apply again.")
+            alert = DarkBoardAlert(message: "SBX 未初始化。请运行漏洞，初始化 SBX，然后重新应用。")
             return
         }
 
@@ -183,9 +183,9 @@ struct DarkBoardView: View {
                 let errors = try manager.applyThemes()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                     if errors.isEmpty {
-                        alert = DarkBoardAlert(message: "Icons applied. Respring now. After reopening lara, initialize SBX again so the post-respring icon fixup can restore the original bundle files.")
+                        alert = DarkBoardAlert(message: "图标已应用。请立即注销。重新打开 lara 后，再次初始化 SBX，以便注销后图标修复可以恢复默认 bundle 文件。")
                     } else {
-                        alert = DarkBoardAlert(message: "Applied with some errors:\n\n" + errors.joined(separator: "\n\n"))
+                        alert = DarkBoardAlert(message: "已应用，但存在以下错误：\n\n" + errors.joined(separator: "\n\n"))
                     }
                 }
             } catch {
@@ -267,7 +267,7 @@ private struct ThemeCardView: View {
                         }
                     }
                 } else {
-                    Text("Not enough icons for preview")
+                    Text("图标不足以预览")
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
@@ -284,7 +284,7 @@ private struct ThemeCardView: View {
             }
 
             Button(action: onToggle) {
-                Text(selectionIndex == nil ? "Select" : "Selected: \(selectionIndex! + 1)")
+                Text(selectionIndex == nil ? "选择" : "已选择：\(selectionIndex! + 1)")
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)
                     .background(selectionIndex == nil ? Color.secondary.opacity(0.2) : Color.accentColor)
@@ -293,7 +293,7 @@ private struct ThemeCardView: View {
             }
 
             Button(role: .destructive, action: onDelete) {
-                Text("Remove")
+                Text("移除")
                     .font(.caption)
             }
         }
@@ -355,7 +355,7 @@ struct IconOverridesView: View {
                 }
             }
         }
-        .navigationTitle("Overrides")
+        .navigationTitle("覆盖")
         .searchable(text: $search)
         .onAppear {
             try? manager.refreshApps()
@@ -385,7 +385,7 @@ private struct OverrideSelectionView: View {
                     manager.removeOverride(for: app.bundleIdentifier)
                     dismiss()
                 } label: {
-                    Text("Remove Override")
+                    Text("移除覆盖")
                 }
             }
 
@@ -401,7 +401,7 @@ private struct OverrideSelectionView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 14))
                         VStack(alignment: .leading) {
                             Text(choice.theme.name)
-                            Text(choice.theme.name == manager.iconOverrides[app.bundleIdentifier] ? "Current override" : "Tap to set")
+                            Text(choice.theme.name == manager.iconOverrides[app.bundleIdentifier] ? "当前覆盖" : "点击设置")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
