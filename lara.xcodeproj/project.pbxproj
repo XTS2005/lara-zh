@@ -290,10 +290,10 @@
 				};
 			};
 			buildConfigurationList = CC1C8B342F71DF9C00206982 /* Build configuration list for PBXProject "lara" */;
-			developmentRegion = en;
+			developmentRegion = zh-Hans;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				zh-Hans,
 				Base,
 			);
 			mainGroup = CC1C8B302F71DF9C00206982;
