@@ -118,16 +118,16 @@ class SpringboardColorManager {
                     let result = laramgr.shared.lara_overwritefile(target: "\(fileFolders[forType]!)\(file)\(fileExt[forType]!)", data: replacementFile)
                     
                     if result.ok {
-                        throw "successfully reverted files"
+                        throw "成功还原文件"
                     } else {
-                        throw "failed to overwrite with replacement file!"
+                        throw "覆写替换文件失败！"
                     }
                 } else {
-                    throw "No file resource was found!"
+                    throw "未找到文件资源！"
                 }
             }
         } else {
-            throw "File type doesn't exist in table???"
+            throw "表中不存在该文件类型？？？"
         }
     }
     
@@ -202,7 +202,7 @@ class SpringboardColorManager {
                                     try newData.write(to: bgDir!.appendingPathComponent(file+fileExt[forType]!))
                                 }
                             } else {
-                                print("NOT CORRECT SIZE")
+                                print("大小不正确")
                             }
                         } catch {
                             print(error.localizedDescription)
@@ -214,7 +214,7 @@ class SpringboardColorManager {
                 }
             }
         } else {
-            throw "Could not find the background files directory!"
+            throw "找不到背景文件目录！"
         }
     }
     
@@ -257,8 +257,8 @@ class SpringboardColorManager {
                                 try newData.write(to: bgDir!.appendingPathComponent(file+fileExt[forType]!))
                             }
                         } else {
-                            print("NOT CORRECT SIZE")
-                            throw "Not the correct file size for item \(file+fileExt[forType]!)!"
+                            print("大小不正确")
+                            throw "文件大小不正确：\(file+fileExt[forType]!)"
                         }
                     } catch {
                         print(error.localizedDescription)
@@ -286,12 +286,12 @@ class SpringboardColorManager {
                         try newData.write(to: bgDir!.appendingPathComponent(file+fileExt[forType]!))
                     }
                 } else {
-                    throw "Backup url could not be found!"
+                    throw "找不到备份 URL！"
                 }
             }
             return
         } else {
-            throw "Could not find the background files directory!"
+            throw "找不到背景文件目录！"
         }
     }
     
@@ -303,7 +303,7 @@ class SpringboardColorManager {
                 try FileManager.default.removeItem(at: path)
             }
         } else {
-            throw "Could not find the background files directory!"
+            throw "找不到背景文件目录！"
         }
     }
     
@@ -320,15 +320,15 @@ class SpringboardColorManager {
                         newData = try Data(contentsOf: bgDir!.appendingPathComponent(file + fileExt[forType]!))
                     }
                     if newData == nil {
-                        throw "No color files found!"
+                        throw "未找到颜色文件！"
                     }
                     // overwrite file
                     let result = laramgr.shared.lara_overwritefile(target: "\(fileFolders[forType]!)\(file)\(fileExt[forType]!)", data: newData!)
                     
                     if result.ok {
-                        throw "successfully reverted files"
+                        throw "成功还原文件"
                     } else {
-                        throw "failed to overwrite with replacement file!"
+                        throw "覆写替换文件失败！"
                     }
                 } catch {
                     print(error.localizedDescription)
@@ -346,7 +346,7 @@ class SpringboardColorManager {
             }
             return newURL
         } catch {
-            print("An error occurred getting/making the background files directory")
+            print("获取/创建背景文件目录时出错")
         }
         return nil
     }
@@ -362,10 +362,10 @@ class ColorSwapManager {
             if newData.count == plistData.count {
                 return newData
             } else {
-                throw "File size does not match!!!\nNew: \(newData.count)\nOld: \(plistData.count)"
+                throw "文件大小不匹配！！！\n新：\(newData.count)\n旧：\(plistData.count)"
             }
         } else {
-            throw "Error serializing original plist data!"
+            throw "序列化默认 plist 数据出错！"
         }
     }
     
@@ -426,7 +426,7 @@ class ColorSwapManager {
 func addEmptyData(matchingSize: Int, to plist: [String: Any]) throws -> Data {
     var newPlist = plist
     // create the new data
-    guard var newData = try? PropertyListSerialization.data(fromPropertyList: newPlist, format: .binary, options: 0) else { throw "Unable to get data" }
+    guard var newData = try? PropertyListSerialization.data(fromPropertyList: newPlist, format: .binary, options: 0) else { throw "无法获取数据" }
     // add data if too small
     // while loop to make data match because recursive function didn't work
     // very slow, will hopefully improve
@@ -442,7 +442,7 @@ func addEmptyData(matchingSize: Int, to plist: [String: Any]) throws -> Data {
     while newDataSize != matchingSize && count < 200 {
         count += 1
         if added < 0 {
-            print("LESS THAN 0")
+            print("小于 0")
             break
         }
         newPlist.updateValue(String(repeating: "#", count: added), forKey: "MdC")
@@ -450,7 +450,7 @@ func addEmptyData(matchingSize: Int, to plist: [String: Any]) throws -> Data {
             newData = try PropertyListSerialization.data(fromPropertyList: newPlist, format: .binary, options: 0)
         } catch {
             newDataSize = -1
-            print("ERROR SERIALIZING DATA")
+            print("序列化数据出错")
             break
         }
         newDataSize = newData.count

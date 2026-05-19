@@ -33,15 +33,15 @@ struct SpringBoardView: View {
     // list of options
     @State var tweakOptions: [GeneralOption] = [
         .init(value: getDefaultStr(forKey: "Dock"), key: "Dock", sbType: .dock, title: NSLocalizedString("Dock", comment: "Springboard tool"), imageName: "dock.rectangle", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
-        .init(value: getDefaultStr(forKey: "HomeBar"), key: "HomeBar", title: NSLocalizedString("Home Bar", comment: "Springboard tool"), imageName: "iphone", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Disabled"]),
-        .init(value: getDefaultStr(forKey: "FolderBG"), key: "FolderBG", sbType: .folder, title: NSLocalizedString("Folder Background", comment: "Springboard tool"), imageName: "folder", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
-        .init(value: getDefaultStr(forKey: "FolderBlur"), key: "FolderBlur", sbType: .folderBG, title: NSLocalizedString("Folder Blur", comment: "Springboard tool"), imageName: "folder.circle", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
-        .init(value: getDefaultStr(forKey: "CCModuleBG"), key: "CCModuleBG", sbType: .module, title: NSLocalizedString("CC Module Background", comment: "Springboard tool"), shortTitle: "CC Module BG", imageName: "switch.2", fileType: OverwritingFileTypes.cc, options: ["Visible", "Color", "Disabled"]),
-        .init(value: getDefaultStr(forKey: "CCBG"), key: "CCBG", sbType: .moduleBG, title: NSLocalizedString("CC Background Blur", comment: "Springboard tool"), imageName: "switch.2", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
-        .init(value: getDefaultStr(forKey: "Switcher"), key: "Switcher", sbType: .switcher, title: NSLocalizedString("App Switcher Blur", comment: "Springboard tool"), imageName: "apps.iphone", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Blur", "Disabled"]),
-        .init(value: getDefaultStr(forKey: "PodBG"), key: "PodBG", sbType: .libraryFolder, title: NSLocalizedString("Library Pod Background", comment: "Springboard tool"), shortTitle: "Library Pod BG", imageName: "square.stack", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
-        .init(value: getDefaultStr(forKey: "NotifBG"), key: "NotifBG", sbType: .notif, title: NSLocalizedString("Notification Banner Background", comment: "Springboard tool"), shortTitle: "Notification BG", imageName: "platter.filled.top.iphone", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
-        .init(value: getDefaultStr(forKey: "NotifShadow"), key: "NotifShadow", sbType: .notifShadow, title: NSLocalizedString("Notification Banner Shadow", comment: "Springboard tool"), shortTitle: "Notification Shadow", imageName: "platter.filled.top.iphone", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
+        .init(value: getDefaultStr(forKey: "HomeBar"), key: "HomeBar", title: NSLocalizedString("主屏幕横条", comment: "Springboard tool"), imageName: "iphone", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Disabled"]),
+        .init(value: getDefaultStr(forKey: "FolderBG"), key: "FolderBG", sbType: .folder, title: NSLocalizedString("文件夹背景", comment: "Springboard tool"), imageName: "folder", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
+        .init(value: getDefaultStr(forKey: "FolderBlur"), key: "FolderBlur", sbType: .folderBG, title: NSLocalizedString("文件夹模糊", comment: "Springboard tool"), imageName: "folder.circle", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
+        .init(value: getDefaultStr(forKey: "CCModuleBG"), key: "CCModuleBG", sbType: .module, title: NSLocalizedString("控制中心模块背景", comment: "Springboard tool"), shortTitle: "控制中心模块背景", imageName: "switch.2", fileType: OverwritingFileTypes.cc, options: ["Visible", "Color", "Disabled"]),
+        .init(value: getDefaultStr(forKey: "CCBG"), key: "CCBG", sbType: .moduleBG, title: NSLocalizedString("控制中心背景模糊", comment: "Springboard tool"), imageName: "switch.2", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
+        .init(value: getDefaultStr(forKey: "Switcher"), key: "Switcher", sbType: .switcher, title: NSLocalizedString("应用切换器模糊", comment: "Springboard tool"), imageName: "apps.iphone", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Blur", "Disabled"]),
+        .init(value: getDefaultStr(forKey: "PodBG"), key: "PodBG", sbType: .libraryFolder, title: NSLocalizedString("资源库 Pod 背景", comment: "Springboard tool"), shortTitle: "资源库 Pod 背景", imageName: "square.stack", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
+        .init(value: getDefaultStr(forKey: "NotifBG"), key: "NotifBG", sbType: .notif, title: NSLocalizedString("通知横幅背景", comment: "Springboard tool"), shortTitle: "通知背景", imageName: "platter.filled.top.iphone", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
+        .init(value: getDefaultStr(forKey: "NotifShadow"), key: "NotifShadow", sbType: .notifShadow, title: NSLocalizedString("通知横幅阴影", comment: "Springboard tool"), shortTitle: "通知阴影", imageName: "platter.filled.top.iphone", fileType: OverwritingFileTypes.springboard, options: ["Visible", "Color", "Disabled"]),
 //        .init(value: getDefaultStr(forKey: "ShortcutBanner"), key: "ShortcutBanner", title: NSLocalizedString("Shortcut Notification Banner", comment: "Springboard tool"), imageName: "pencil.slash", fileType: .springboard, options: ["Visible", "Disabled"], minimumOS: 16)
     ]
     
@@ -70,7 +70,7 @@ struct SpringBoardView: View {
                                 }
                             }
                         } label: {
-                            ButtonLabel(text: "Apply", icon: "checkmark")
+                            ButtonLabel(text: "应用", icon: "checkmark")
                         }
                         .buttonStyle(TranslucentButtonStyle(color: .green))
                         
@@ -103,7 +103,7 @@ struct SpringBoardView: View {
             }
         }
         .padding()
-        .navigationTitle("SpringBoard Tools")
+        .navigationTitle("主屏幕工具")
         .navigationViewStyle(.stack)
     }
     
@@ -191,10 +191,10 @@ struct SpringBoardView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 //UIApplication.shared.dismissAlert(animated: true)
                 if failed {
-                    Alertinator.shared.alert(title: "useless ass alert", body: "something failed while applying tweaks")
+                    Alertinator.shared.alert(title: "无用的提醒", body: "应用调整时出现问题")
                     //UIApplication.shared.alert(body: "An error occurred when applying tweaks")
                 } else {
-                    Alertinator.shared.alert(title: "yayy", body: "it should've worked?")
+                    Alertinator.shared.alert(title: "耶", body: "应该成功了吧？")
                     //UIApplication.shared.alert(title: NSLocalizedString("Successfully applied tweaks", comment: "Successfully applied tweaks"), body: NSLocalizedString("Respring to see changes", comment: "Respring to see changes"))
                 }
             }
@@ -362,19 +362,19 @@ struct SpringBoardView: View {
                     VStack{
                         if option.selectedOption == "Color" {
                             HStack {
-                                Text("Color:")
+                                Text("颜色：")
                                     .font(.title)
                                     .fontWeight(.medium)
                                     .padding(.horizontal, 25)
                                 Spacer()
-                                ColorPicker("Set notification banner color", selection: $option.color)
+                                ColorPicker("设置通知横幅颜色", selection: $option.color)
                                     .labelsHidden()
                                     .scaleEffect(1.5)
                                     .padding(.horizontal, 50)
                             }
                         }
                         HStack {
-                            Text("Blur:   \(Int(option.blur))")
+                            Text("模糊：\(Int(option.blur))")
                                 .frame(width: 125)
                             Spacer()
                             Slider(value: $option.blur, in: 0...150, step: 1.0)
@@ -412,7 +412,7 @@ struct SpringBoardView: View {
                         }
                     }
                 }) {
-                    Text("Save")
+                    Text("保存")
                 }
                 //.buttonStyle(TintedButton(color: .blue, fullwidth: true))
                 .padding(25)
