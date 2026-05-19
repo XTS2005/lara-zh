@@ -15,14 +15,14 @@ struct dirtyZeroView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(header: HeaderLabel(text: "Actions", icon: "wrench.and.screwdriver"), footer: Text("All tweaks are done in memory, so if something goes wrong, please reboot your device. Made with love by [jailbreak.party](https://jailbreak.party). This section of tweaks is also available as a [seperate app!](https://github.com/jailbreakdotparty/dirtyZero)")) {
-                    Button("Apply Tweaks", action: {
+                Section(header: HeaderLabel(text: "操作", icon: "wrench.and.screwdriver"), footer: Text("所有调整均在内存中完成，如果出现问题请重启设备。由 [jailbreak.party](https://jailbreak.party) 倾心制作。此部分调整也可作为[独立应用](https://github.com/jailbreakdotparty/dirtyZero)使用！")) {
+                    Button("应用调整", action: {
                         applyTweaks()
                     })
-                    Button("Respring", action: {
+                    Button("注销", action: {
                         mgr.respring()
                     })
-                    Toggle("Enable Risky Tweaks", isOn: $enableRiskyTweaks)
+                    Toggle("启用风险调整", isOn: $enableRiskyTweaks)
                 }
                 
                 ListedTweaksSection
@@ -33,7 +33,7 @@ struct dirtyZeroView: View {
     
     private var ListedTweaksSection: some View {
         ForEach($tweakArray) { $section in
-            if (section.name == "Risky Tweaks" && enableRiskyTweaks) || section.name != "Risky Tweaks" {
+            if (section.name == "风险调整" && enableRiskyTweaks) || section.name != "风险调整" {
                 Section(header: HeaderDropdown(text: section.name, icon: section.icon, isExpanded: $section.isExpanded, useItemCount: true, itemCount: section.tweaks.count)) {
                     if section.isExpanded {
                         ForEach($section.tweaks) { $tweak in
@@ -56,7 +56,7 @@ struct dirtyZeroView: View {
             }
         }
         
-        Alertinator.shared.alert(title: "Attempted to apply all tweaks!", body: "Please respring your device to see any changes. Zeroing files with DarkSword is finicky, so you may have to apply multiple times!", actionLabel: "Respring", action: {
+        Alertinator.shared.alert(title: "已尝试应用所有调整！", body: "请注销设备以查看更改。使用 DarkSword 清零文件不稳定，可能需要多次应用！", actionLabel: "注销", action: {
             mgr.respring()
         })
     }
