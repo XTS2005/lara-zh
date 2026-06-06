@@ -32,7 +32,7 @@ enum carparser {
     static func parse(_ data: Data) throws -> [carcolorentry] {
         let magic = String(bytes: data[0..<8], encoding: .ascii)
         guard magic == "BOMStore" else {
-            throw NSError(domain: "CAR", code: 1, userInfo: [NSLocalizedDescriptionKey: "invalid file"])
+            throw NSError(domain: "CAR", code: 1, userInfo: [NSLocalizedDescriptionKey: "无效文件"])
         }
 
         let idxoff = Int(tou32be(data, 0x10))
@@ -154,7 +154,7 @@ struct entry: Identifiable {
 struct SystemColor: View {
     @ObservedObject var mgr: laramgr
     @State private var entries: [entry] = []
-    @State private var status = "Not loaded"
+    @State private var status = "未加载"
     @State private var ogdata: Data?
     @State private var parsedentries: [carcolorentry] = []
     
@@ -198,7 +198,7 @@ struct SystemColor: View {
                         }
                     }
                 } footer: {
-                    Text("[Respring](https://roooot.dev/respring.html) to apply. \n")
+                    Text("[注销](https://roooot.dev/respring.html) 以应用。\n")
                     + Text(status)
                 }
                 
@@ -218,7 +218,7 @@ struct SystemColor: View {
                             Text("Yupa")
                                 .font(.headline)
                             
-                            Text("The original [SystemColors Patcher](https://yupa-tt.github.io/SystemColor/).")
+                            Text("默认的 [全局改色工具](https://yupa-tt.github.io/SystemColor/)。")
                                 .font(.subheadline)
                                 .foregroundColor(Color.secondary)
                         }
@@ -232,10 +232,10 @@ struct SystemColor: View {
                         }
                     }
                 } header: {
-                    Text("Credits")
+                    Text("致谢")
                 }
             }
-            .navigationTitle("SystemColors")
+            .navigationTitle("全局颜色")
             .toolbar {
                 Button {
                     apply()
@@ -272,17 +272,17 @@ struct SystemColor: View {
                 )
             }
 
-            status = "Loaded \(entries.count) colors"
+            status = "已加载 \(entries.count) 个颜色"
 
         } catch {
-            status = "Failed: \(error.localizedDescription)"
+            status = "失败：\(error.localizedDescription)"
             print(error)
         }
     }
 
     func apply() {
         guard var original = ogdata else {
-            status = "No original data"
+            status = "无默认数据"
             return
         }
 
@@ -304,12 +304,12 @@ struct SystemColor: View {
         do {
             try original.write(to: URL(fileURLWithPath: tmp))
         } catch {
-            status = "Temp write failed: \(error.localizedDescription)"
+            status = "临时写入失败：\(error.localizedDescription)"
             return
         }
 
         let res = mgr.lara_overwritefile(target: syspath, source: tmp)
-        status = res.ok ? "Patched!" : "Failed: \(res.message)"
+        status = res.ok ? "已修补！" : "失败：\(res.message)"
 
         try? FileManager.default.removeItem(atPath: tmp)
     }
