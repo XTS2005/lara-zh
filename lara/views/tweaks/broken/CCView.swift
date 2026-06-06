@@ -15,10 +15,10 @@ struct CCView: View {
                 } header: {
                     Text("RespringCC")
                 } footer: {
-                    Text("Uses lara's respring helper.")
+                    Text("使用 lara 的注销助手。")
                 }
             }
-            .navigationTitle("Control Center")
+            .navigationTitle("控制中心")
         }
     }
 }
