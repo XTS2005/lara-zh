@@ -176,14 +176,14 @@ struct PasscodeView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Import Theme")) {
-                    NavigationLink("Explore") {
+                Section(header: Text("导入主题")) {
+                    NavigationLink("浏览") {
                         PasscodeExploreView(mgr: mgr) { url in
                             importPassthmFile(url: url)
                         }
                     }
                     Button { showFilePicker = true } label: {
-                        Label("Import .passthm / .zip File", systemImage: "square.and.arrow.down")
+                        Label("导入 .passthm / .zip 文件", systemImage: "square.and.arrow.down")
                     }
                 }
                 Section {
@@ -211,8 +211,8 @@ struct PasscodeView: View {
                     }
                 }
                 
-                Section(header: Text("Apply")) {
-                    Button("Apply Passcode Theme") {
+                Section(header: Text("应用")) {
+                    Button("应用密码主题") {
                         applyTheme()
                     }
                     .disabled(selectedKeys.isEmpty || processing || passcodeThemeManager.isApplying)
@@ -223,16 +223,16 @@ struct PasscodeView: View {
                     }
                 }
                 
-                Section(header: Text("Danger Zone")) {
-                    Button("Clear All Keys", role: .destructive) {
+                Section(header: Text("危险区域")) {
+                    Button("清除所有按键", role: .destructive) {
                         selectedKeys.removeAll()
                     }
-                    Button("Restore Original Icons", role: .destructive) { restoreTheme() }
+                    Button("恢复默认图标", role: .destructive) { restoreTheme() }
                     .disabled(processing || passcodeThemeManager.isApplying)
                 }
             }
             .headerProminence(.increased)
-            .navigationTitle("Passcode Theme")
+            .navigationTitle("密码主题")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(item: $showImagePicker) { keyId in
                 ImagePicker(imageData: $selectedKeys[keyId])
@@ -258,14 +258,14 @@ struct PasscodeView: View {
             guard let url = urls.first else { return }
             importPassthmFile(url: url)
         case .failure(let error):
-            statusMessage = "Error: \(error.localizedDescription)"
+            statusMessage = "错误：\(error.localizedDescription)"
         }
     }
     
     func importPassthmFile(url: URL) {
         processing = true
-        statusMessage = "Importing theme..."
-        
+        statusMessage = "正在导入主题..."
+
         DispatchQueue.global(qos: .userInitiated).async {
             let accessing = url.startAccessingSecurityScopedResource()
             defer {
@@ -294,12 +294,12 @@ struct PasscodeView: View {
                         selectedKeys[keyId] = imageData
                     }
                     processing = false
-                    statusMessage = "Imported \(extractedKeys.count) key(s)"
+                    statusMessage = "已导入 \(extractedKeys.count) 个按键"
                 }
             } catch {
                 DispatchQueue.main.async {
                     processing = false
-                    statusMessage = "Error: \(error.localizedDescription)"
+                    statusMessage = "错误：\(error.localizedDescription)"
                 }
             }
         }
@@ -403,7 +403,7 @@ struct PasscodeView: View {
     
     func applyTheme() {
         guard mgr.sbxready else {
-            statusMessage = "Error: SBX not ready"
+            statusMessage = "错误：SBX 未就绪"
             return
         }
 
@@ -414,7 +414,7 @@ struct PasscodeView: View {
             guard let basePath = resolveTelephonyBasePath() else {
                 DispatchQueue.main.async {
                     processing = false
-                    statusMessage = "Error: TelephonyUI cache not found"
+                    statusMessage = "错误：找不到 TelephonyUI 缓存"
                 }
                 return
             }
@@ -423,7 +423,7 @@ struct PasscodeView: View {
             guard let enumerator = fm.enumerator(atPath: basePath) else {
                 DispatchQueue.main.async {
                     processing = false
-                    statusMessage = "Error: failed to enumerate cache"
+                    statusMessage = "错误：枚举缓存失败"
                 }
                 return
             }
@@ -452,7 +452,7 @@ struct PasscodeView: View {
             DispatchQueue.main.async {
                 passcodeThemeManager.isApplying = true
                 passcodeThemeManager.progress = 0
-                passcodeThemeManager.message = "preparing passcode theme..."
+                passcodeThemeManager.message = "正在准备密码主题..."
             }
 
             defer {
@@ -470,12 +470,12 @@ struct PasscodeView: View {
 
                     DispatchQueue.main.async {
                         passcodeThemeManager.progress = Double(index) / total
-                        passcodeThemeManager.message = "applying \(keyId)"
+                        passcodeThemeManager.message = "正在应用 \(keyId)"
                     }
 
                     if matched.isEmpty {
                         failCount += 1
-                        errors.append("no target found for \(keyId)")
+                        errors.append("找不到 \(keyId) 的目标")
                         return
                     }
 
@@ -497,11 +497,11 @@ struct PasscodeView: View {
                 passcodeThemeManager.progress = 1.0
 
                 if failCount == 0 {
-                    passcodeThemeManager.message = "Done"
-                    statusMessage = "applied \(successCount) file(s)"
+                    passcodeThemeManager.message = "完成"
+                    statusMessage = "已应用 \(successCount) 个文件"
                 } else {
-                    passcodeThemeManager.message = "Completed with errors"
-                    statusMessage = "applied \(successCount), failed \(failCount)\n\n\(errors.joined(separator: "\n"))"
+                    passcodeThemeManager.message = "已完成，但有错误"
+                    statusMessage = "已应用 \(successCount)，失败 \(failCount)\n\n\(errors.joined(separator: "\n"))"
                 }
             }
         }
@@ -530,7 +530,7 @@ struct PasscodeView: View {
     
     func restoreTheme() {
         guard mgr.sbxready else {
-            statusMessage = "Error: SBX not ready"
+            statusMessage = "错误：SBX 未就绪"
             return
         }
         processing = true
@@ -540,7 +540,7 @@ struct PasscodeView: View {
             guard let basePath = resolveTelephonyBasePath() else {
                 DispatchQueue.main.async {
                     processing = false
-                    statusMessage = "Error: TelephonyUI cache not found"
+                    statusMessage = "错误：找不到 TelephonyUI 缓存"
                 }
                 return
             }
@@ -551,12 +551,12 @@ struct PasscodeView: View {
                 }
                 DispatchQueue.main.async {
                     processing = false
-                    statusMessage = "Originals restored"
+                    statusMessage = "已恢复默认文件"
                 }
             } catch {
                 DispatchQueue.main.async {
                     processing = false
-                    statusMessage = "Error: \(error.localizedDescription)"
+                    statusMessage = "错误：\(error.localizedDescription)"
                 }
             }
         }
