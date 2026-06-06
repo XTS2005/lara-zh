@@ -23,34 +23,34 @@ struct LiquidGlassView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(header: HeaderLabel(text: "Applying", icon: "checkmark")) {
-                    Button("Apply Tweaks", action: { applyLiquidGlass() })
-                    Button("Reset Tweaks", action: { restoreLiquidGlass() })
+                Section(header: HeaderLabel(text: "应用", icon: "checkmark")) {
+                    Button("应用调整", action: { applyLiquidGlass() })
+                    Button("重置调整", action: { restoreLiquidGlass() })
                 }
                 
-                Section(header: HeaderLabel(text: "Preview", icon: "eye")) {
+                Section(header: HeaderLabel(text: "预览", icon: "eye")) {
                     LiquidGlassPreview(lgDisabled: gpKeyBinding("com.apple.SwiftUI.DisableSolarium"), lgFallback: gpKeyBinding("SolariumForceFallback"))
                         .listRowInsets(EdgeInsets())
                 }
                 
-                Section(header: HeaderLabel(text: "User Interface", icon: "iphone"), footer: Text("Solarium Fallback - This will give all liquid glass elements a gray background.\n\nDisable Liquid Glass - This will actually disable liquid glass, reverting back to the iOS 18 UI, with some major visual bugs (especially in the Control Center).")) {
-                    Toggle("Enable Solarium Fallback", isOn: gpKeyBinding("SolariumForceFallback"))
-                    Toggle("Disable Liquid Glass", isOn: gpKeyBinding("com.apple.SwiftUI.DisableSolarium"))
+                Section(header: HeaderLabel(text: "用户界面", icon: "iphone"), footer: Text("Solarium 回退 - 将使所有液态玻璃元素显示灰色背景。\n\n禁用液态玻璃 - 将真正禁用液态玻璃，回退到 iOS 18 界面，但会出现一些严重的视觉问题（特别是在控制中心）。")) {
+                    Toggle("启用 Solarium 回退", isOn: gpKeyBinding("SolariumForceFallback"))
+                    Toggle("禁用液态玻璃", isOn: gpKeyBinding("com.apple.SwiftUI.DisableSolarium"))
                 }
                 
-                Section(header: HeaderLabel(text: "Liquid Glass", icon: "square.on.square.intersection.dashed")) {
-                    Toggle("Disable Specular Motion", isOn: gpKeyBinding("SBDisableSpecularEverywhereUsingLSSAssertion"))
-                    Toggle("Disable Outer Refraction", isOn: gpKeyBinding("SolariumDisableOuterRefraction"))
-                    Toggle("Disable Solarium HDR", isOn: gpKeyBinding("SolariumAllowHDR", default: true, enable: false))
+                Section(header: HeaderLabel(text: "液态玻璃", icon: "square.on.square.intersection.dashed")) {
+                    Toggle("禁用镜面反射动效", isOn: gpKeyBinding("SBDisableSpecularEverywhereUsingLSSAssertion"))
+                    Toggle("禁用外部折射效果", isOn: gpKeyBinding("SolariumDisableOuterRefraction"))
+                    Toggle("禁用 Solarium HDR", isOn: gpKeyBinding("SolariumAllowHDR", default: true, enable: false))
                 }
                 
-                Section(header: HeaderLabel(text: "Visibility", icon: "loupe")) {
-                    Toggle("Ignore Liquid Glass App Build Check", isOn: gpKeyBinding("com.apple.SwiftUI.IgnoreSolariumLinkedOnCheck"))
-                    Toggle("Disable Liquid Glass on LS Clock", isOn: gpKeyBinding("SBDisallowGlassTime"))
-                    Toggle("Disable Liquid Glass on Dock", isOn: gpKeyBinding("SBDisableGlassDock"))
+                Section(header: HeaderLabel(text: "可见性", icon: "loupe")) {
+                    Toggle("忽略液态玻璃应用构建检查", isOn: gpKeyBinding("com.apple.SwiftUI.IgnoreSolariumLinkedOnCheck"))
+                    Toggle("禁用锁屏时钟液态玻璃", isOn: gpKeyBinding("SBDisallowGlassTime"))
+                    Toggle("禁用 Dock 栏液态玻璃", isOn: gpKeyBinding("SBDisableGlassDock"))
                 }
             }
-            .navigationTitle("Liquid Glass")
+            .navigationTitle("液态玻璃")
             .onAppear {
                 loadGPData()
             }
@@ -71,7 +71,7 @@ struct LiquidGlassView: View {
             
             gpCurrentDict = try NSMutableDictionary(contentsOf: URL(fileURLWithPath: gpCurrentPath), error: ())
         } catch {
-            Alertinator.shared.alert(title: "Failed to load Global Preferences data!", body: "Please restart the app and try again.")
+            Alertinator.shared.alert(title: "加载全局偏好数据失败！", body: "请重启应用并重试。")
         }
     }
     
@@ -82,12 +82,12 @@ struct LiquidGlassView: View {
             let result = mgr.lara_overwritefile(target: gpCurrentPath, data: gpData)
             
             if result.ok {
-                Alertinator.shared.alert(title: "Successfully applied Liquid Glass Tweaks!", body: "Reboot your device to see any changes")
+                Alertinator.shared.alert(title: "液态玻璃调整应用成功！", body: "重启设备以查看更改")
             } else {
                 throw "Overwrite failed: \(result.message)"
             }
         } catch {
-            Alertinator.shared.alert(title: "Failed to enable Liquid Glass Tweaks!", body: "\(error)")
+            Alertinator.shared.alert(title: "启用液态玻璃调整失败！", body: "\(error)")
         }
     }
     
@@ -104,7 +104,7 @@ struct LiquidGlassView: View {
                 throw "No Global Prefs file found!"
             }
         } catch {
-            Alertinator.shared.alert(title: "Failed to restore Liquid Glass!", body: "\(error)")
+            Alertinator.shared.alert(title: "恢复液态玻璃失败！", body: "\(error)")
         }
     }
     
