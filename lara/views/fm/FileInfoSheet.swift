@@ -70,43 +70,43 @@ struct santanderinfosheet: View {
                     }
                 }
                 
-                Section(header: HeaderLabel(text: "File Information", icon: "info.circle")) {
+                Section(header: HeaderLabel(text: "文件信息", icon: "info.circle")) {
                     LabeledContent("UTType") {
                         Text(file.uttype)
                     }
-                    LabeledContent("Creation Date") {
+                    LabeledContent("创建日期") {
                         Text(file.created)
                     }
-                    LabeledContent("Last Modified") {
+                    LabeledContent("最后修改") {
                         Text(file.modified)
                     }
-                    LabeledContent("Symlink") {
+                    LabeledContent("符号链接") {
                         Image(systemName: file.isSymlink ? "checkmark" : "xmark")
                     }
                 }
                 
-                Section(header: HeaderLabel(text: "Permissions", icon: "shield")) {
-                    LabeledContent("POSIX Permissions") {
+                Section(header: HeaderLabel(text: "权限", icon: "shield")) {
+                    LabeledContent("POSIX 权限") {
                         Text(file.posixPerms)
                     }
-                    LabeledContent("Owner") {
+                    LabeledContent("所有者") {
                         Text(file.owner)
                     }
-                    LabeledContent("Group") {
+                    LabeledContent("用户组") {
                         Text(file.group)
                     }
-                    LabeledContent("Readable") {
+                    LabeledContent("可读") {
                         Image(systemName: file.readable ? "checkmark" : "xmark")
                     }
-                    LabeledContent("Writable") {
+                    LabeledContent("可写") {
                         Image(systemName: file.writable ? "checkmark" : "xmark")
                     }
-                    LabeledContent("Executable") {
+                    LabeledContent("可执行") {
                         Image(systemName: file.executable ? "checkmark" : "xmark")
                     }
                 }
             }
-            .navigationTitle("File Info")
+            .navigationTitle("文件信息")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
@@ -148,7 +148,7 @@ struct santandernamesheet: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
+                    Button("取消") {
                         dismiss()
                     }
                 }
@@ -176,27 +176,27 @@ struct santandernewfilesheet: View {
         NavigationStack {
             Form {
                 Section(itemname) {
-                    TextField("Filename", text: $name)
+                    TextField("文件名", text: $name)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
                 }
 
-                Section("Contents") {
+                Section("内容") {
                     TextEditor(text: $text)
                         .frame(minHeight: 180)
                         .font(.system(.body, design: .monospaced))
                 }
             }
-            .navigationTitle("Create File")
+            .navigationTitle("创建文件")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
+                    Button("取消") {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Create") {
+                    Button("创建") {
                         apply(name, text)
                         dismiss()
                     }
@@ -218,21 +218,21 @@ struct santanderchmodsheet: View {
         NavigationStack {
             Form {
                 Section(item.name) {
-                    TextField("e.g. 755", text: $text)
+                    TextField("例如 755", text: $text)
                         .keyboardType(.numberPad)
                         .font(.system(.body, design: .monospaced))
                 }
             }
-            .navigationTitle("Chmod")
+            .navigationTitle("权限修改")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
+                    Button("取消") {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Apply") {
+                    Button("应用") {
                         guard let mode = UInt16(text, radix: 8) else { return }
                         apply(mode)
                         dismiss()
@@ -256,22 +256,22 @@ struct santanderchownsheet: View {
         NavigationStack {
             Form {
                 Section(item.name) {
-                    TextField("UID (e.g. 501)", text: $uid)
+                    TextField("UID（例如 501）", text: $uid)
                         .keyboardType(.numberPad)
-                    TextField("GID (e.g. 501)", text: $gid)
+                    TextField("GID（例如 501）", text: $gid)
                         .keyboardType(.numberPad)
                 }
             }
-            .navigationTitle("Chown")
+            .navigationTitle("所有者修改")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
+                    Button("取消") {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Apply") {
+                    Button("应用") {
                         guard let uid = UInt32(uid), let gid = UInt32(gid) else { return }
                         apply(uid, gid)
                         dismiss()

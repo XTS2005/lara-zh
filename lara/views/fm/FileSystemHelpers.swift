@@ -63,7 +63,7 @@ enum santanderfs {
     }
 
     static func listdir(item: santanderitem, readsbx: Bool) -> santanderlisting {
-        guard item.isdir else { return santanderlisting(items: [], empty: "Not a directory.") }
+        guard item.isdir else { return santanderlisting(items: [], empty: "不是目录。") }
 
         if readsbx {
             return listsbx(item: item)
@@ -71,10 +71,10 @@ enum santanderfs {
 
         let mgr = laramgr.shared
         guard mgr.vfsready else {
-            return santanderlisting(items: [], empty: "VFS not ready.")
+            return santanderlisting(items: [], empty: "VFS 未就绪。")
         }
         guard let entries = mgr.vfslistdir(path: item.path) else {
-            return santanderlisting(items: [], empty: "Unable to list directory.")
+            return santanderlisting(items: [], empty: "无法列出目录。")
         }
 
         let items = entries.map { entry in
@@ -82,7 +82,7 @@ enum santanderfs {
             return santanderitem(path: full, isdir: entry.isDir)
         }
 
-        return santanderlisting(items: items, empty: items.isEmpty ? "Directory is empty." : nil)
+        return santanderlisting(items: items, empty: items.isEmpty ? "目录为空。" : nil)
     }
 
     static func listsbx(item: santanderitem) -> santanderlisting {
@@ -90,10 +90,10 @@ enum santanderfs {
         var isdir = ObjCBool(false)
         let exists = fm.fileExists(atPath: item.path, isDirectory: &isdir)
         guard exists, isdir.boolValue else {
-            return santanderlisting(items: [], empty: "Directory no longer exists.")
+            return santanderlisting(items: [], empty: "目录不再存在。")
         }
         guard fm.isReadableFile(atPath: item.path) else {
-            return santanderlisting(items: [], empty: "Cannot list directory (missing permissions).")
+            return santanderlisting(items: [], empty: "无法列出目录（权限不足）。")
         }
 
         do {
@@ -139,13 +139,13 @@ enum santanderfs {
                 return santanderitem(path: full, isdir: isdir.boolValue, display: display, isApp: isApp, appUDID: appUDID)
             }
 
-            return santanderlisting(items: items, empty: items.isEmpty ? "Directory is empty." : nil)
+            return santanderlisting(items: items, empty: items.isEmpty ? "目录为空。" : nil)
         } catch {
             let err = error as NSError
             if err.domain == NSCocoaErrorDomain && err.code == NSFileReadNoPermissionError {
-                return santanderlisting(items: [], empty: "Cannot list directory (missing permissions).")
+                return santanderlisting(items: [], empty: "无法列出目录（权限不足）。")
             }
-            return santanderlisting(items: [], empty: "Unable to list directory: \(err.localizedDescription)")
+            return santanderlisting(items: [], empty: "无法列出目录：\(err.localizedDescription)")
         }
     }
 
@@ -178,9 +178,9 @@ enum santanderfs {
     static func emptymessage(shown: [santanderitem], all: [santanderitem], query: String, showhidden: Bool, fallback: String?) -> String? {
         guard shown.isEmpty else { return nil }
         let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !q.isEmpty { return "No matching items." }
-        if !showhidden && !all.isEmpty { return "No visible items. Enable hidden files to show dotfiles." }
-        return fallback ?? "Directory is empty."
+        if !q.isEmpty { return "无匹配项。" }
+        if !showhidden && !all.isEmpty { return "无可显示项。启用「显示隐藏文件」以显示点文件。" }
+        return fallback ?? "目录为空。"
     }
 
     static func recsearchsbx(root: String, query: String) -> [santanderitem] {
@@ -232,7 +232,7 @@ enum santanderfs {
         
         if exists {
             info.fileExists = exists
-            info.kind = isdir.boolValue ? "directory" : "file"
+            info.kind = isdir.boolValue ? "目录" : "文件"
         }
         
         // get particular file info
@@ -290,7 +290,7 @@ enum santanderfs {
         }
 
         guard let data = readdata(path: item.path, readsbx: readsbx, max: 2 * 1024 * 1024) else {
-            let err = readsbx ? "Failed to read file.\n\n" + unreadabledetails(path: item.path) : "Failed to read file."
+            let err = readsbx ? "读取文件失败。\n\n" + unreadabledetails(path: item.path) : "读取文件失败。"
             return santanderloadedfile(preview: .error(err), text: err, editable: false)
         }
 
@@ -374,7 +374,7 @@ enum santanderfs {
 
     static func render(data: Data) -> (text: String, editable: Bool) {
         if data.isEmpty {
-            return ("(empty file)", true)
+            return ("(空文件)", true)
         }
         if let plist = plisttext(data: data) {
             return (plist, false)
@@ -435,7 +435,7 @@ enum santanderfs {
         let limit = min(data.count, 4096)
         let chunk = data.prefix(limit)
         var lines: [String] = []
-        lines.append("Binary data (\(data.count) bytes). Showing first \(limit) bytes:")
+        lines.append("二进制数据（\(data.count) 字节）。显示前 \(limit) 字节:")
         lines.append("")
 
         var off = 0
@@ -461,9 +461,9 @@ enum santanderfs {
 
         var isdir = ObjCBool(false)
         let exists = fm.fileExists(atPath: path, isDirectory: &isdir)
-        lines.append("Exists: \(exists ? "yes" : "no")")
+        lines.append("存在: \(exists ? "是" : "否")")
         if exists {
-            lines.append("Kind: \(isdir.boolValue ? "directory" : "regular item")")
+            lines.append("类型: \(isdir.boolValue ? "目录" : "常规项目")")
         }
 
         let url = URL(fileURLWithPath: path)
@@ -473,38 +473,38 @@ enum santanderfs {
                 lines.append("UTType: \(type.identifier)")
             }
             if let size = values.fileSize {
-                lines.append("Size: \(size) bytes")
+                lines.append("大小: \(size) 字节")
             }
             if let sym = values.isSymbolicLink {
-                lines.append("Symlink: \(sym ? "yes" : "no")")
+                lines.append("符号链接: \(sym ? "是" : "否")")
             }
             if values.isSymbolicLink == true,
                let target = try? fm.destinationOfSymbolicLink(atPath: path) {
-                lines.append("Symlink target: \(target)")
+                lines.append("符号链接目标: \(target)")
             }
             if let alias = values.isAliasFile {
-                lines.append("Alias file: \(alias ? "yes" : "no")")
+                lines.append("替身文件: \(alias ? "是" : "否")")
             }
         }
 
         if let attrs = try? fm.attributesOfItem(atPath: path) {
             if let filetype = attrs[.type] as? FileAttributeType {
-                lines.append("File attribute type: \(filetype.rawValue)")
+                lines.append("文件属性类型: \(filetype.rawValue)")
             }
             if let owner = attrs[.ownerAccountName] as? String {
-                lines.append("Owner: \(owner)")
+                lines.append("所有者: \(owner)")
             }
             if let group = attrs[.groupOwnerAccountName] as? String {
-                lines.append("Group: \(group)")
+                lines.append("用户组: \(group)")
             }
             if let perms = attrs[.posixPermissions] as? NSNumber {
-                lines.append(String(format: "POSIX perms: %04o", perms.intValue))
+                lines.append(String(format: "POSIX 权限: %04o", perms.intValue))
             }
         }
 
-        lines.append("Readable: \(fm.isReadableFile(atPath: path) ? "yes" : "no")")
-        lines.append("Writable: \(fm.isWritableFile(atPath: path) ? "yes" : "no")")
-        lines.append("Executable: \(fm.isExecutableFile(atPath: path) ? "yes" : "no")")
+        lines.append("可读: \(fm.isReadableFile(atPath: path) ? "是" : "否")")
+        lines.append("可写: \(fm.isWritableFile(atPath: path) ? "是" : "否")")
+        lines.append("可执行: \(fm.isExecutableFile(atPath: path) ? "是" : "否")")
         return lines.joined(separator: "\n")
     }
 

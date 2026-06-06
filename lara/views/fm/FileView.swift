@@ -88,7 +88,7 @@ struct santanderfileview: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 if caneditfile {
-                    Button(editing ? "Save" : "Edit") {
+                    Button(editing ? "保存" : "编辑") {
                         if editing {
                             save()
                         } else {
@@ -107,7 +107,7 @@ struct santanderfileview: View {
             }
         }
         .alert(item: $msg) { msg in
-            Alert(title: Text(msg.title), message: Text(msg.text), dismissButton: .default(Text("OK")))
+            Alert(title: Text(msg.title), message: Text(msg.text), dismissButton: .default(Text("确定")))
         }
         .fileExporter(
             isPresented: $showexport,
@@ -116,7 +116,7 @@ struct santanderfileview: View {
             defaultFilename: item.name
         ) { result in
             if case .failure(let err) = result {
-                msg = santandermsg(title: "Export Failed", text: err.localizedDescription)
+                msg = santandermsg(title: "导出失败", text: err.localizedDescription)
             }
         }
     }
@@ -151,7 +151,7 @@ struct santanderfileview: View {
 
     private func startedit() {
         guard editable else {
-            msg = santandermsg(title: "Edit Unavailable", text: "This file type isn't editable in the viewer.")
+            msg = santandermsg(title: "编辑不可用", text: "此文件类型无法在查看器中编辑。")
             return
         }
         editing = true
@@ -176,8 +176,8 @@ struct santanderfileview: View {
                 )
             } catch {
                 msg = santandermsg(
-                    title: "Save Failed",
-                    text: "Invalid plist format."
+                    title: "保存失败",
+                    text: "无效的 plist 格式。"
                 )
                 return
             }
@@ -190,12 +190,12 @@ struct santanderfileview: View {
             editing = false
             original = text
             preview = .text(text, true)
-            msg = santandermsg(title: "Saved", text: "File updated.")
+            msg = santandermsg(title: "已保存", text: "文件已更新。")
             if !readsbx {
                 exporturl = santanderfs.preparetemp(item: item, readsbx: readsbx, maxbytes: 128 * 1024 * 1024)
             }
         } else {
-            msg = santandermsg(title: "Save Failed", text: writevfs ? "VFS overwrite failed." : "Unable to write file.")
+            msg = santandermsg(title: "保存失败", text: writevfs ? "VFS 覆盖失败。" : "无法写入文件。")
         }
     }
 
