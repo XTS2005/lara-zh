@@ -44,6 +44,8 @@ struct TweaksView: View {
                 Section(header: HeaderLabel(text: "用户界面", icon: "eye")) {
                     NavigationLink("dirtyZero", destination: dirtyZeroView())
                         .disabled(!mgr.vfsready)
+                    NavigationLink("Show Hidden Icons", destination: ShowHiddenIconsView(mgr: mgr))
+                        .disabled(!mgr.sbxready && !mgr.vfsready)
                     NavigationLink("MobileGestalt", destination: GestaltView(mgr: mgr))
                         .disabled(!mgr.sbxready)
                     NavigationLink("字体覆盖", destination: FontPicker(mgr: mgr))
